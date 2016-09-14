@@ -62,8 +62,10 @@ public class JImage extends JFrame {
 		setTitle("\u80CC\u666F\u9009\u62E9");
 		
 		  for(int i=1;i<=5;i++){
-	        	theImages[i] =Toolkit.getDefaultToolkit().createImage("image/"+Integer.toString(i)+ ".jpg");
+	        	theImages[i] =Toolkit.getDefaultToolkit().createImage(JImage.class.getResource("/image/"+Integer.toString(i)+ ".jpg"));
 	        			//getImage(getDocumentBase(), "pic" + Integer.toString(i) + ".jpg");
+	        	//java.net.URL im=JImage.class.getResource("/image/"+Integer.toString(i)+ ".jpg");
+	        	//"image/"+Integer.toString(i)+ ".jpg"
 	        } 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
