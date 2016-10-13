@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/bootstrap.css">
+				</head>
+	<style>
+	li{
+		list-style: none;
+	}
+	
+	</style>
+	<body>
+		<audio src="bg.mp3" id="music" loop="loop"></audio>
+		<audio src="2643.wav" id="done"></audio>		<div style="width:800px;height:400px;background-color: rgba(4, 21, 23, 0.9);border:1px solid darkslategray;margin:0 auto;margin-top: 20px;">
+			<canvas id="can" width="800px" height="400px"></canvas>
+			  <img src="img/body.png" id="body"hidden>
+		      <img src="img/food.png" id="food" hidden>
+		      <img src="img/head.png" id="head" hidden>
+		      <img src="img/wall.png" id="wall" hidden>
+"		</div>
+		
+		<div style="width:180px;height:300px;background-color: darkslategrey;float:right;margin-top:-400px;margin-right:30px;background-image: url(img/images.jpg);"> 
+				<span style="position:absolute;top:40px;color:white;" ><strong>Score:</strong></span>
+				<span style="position:absolute;top:40px;right:100px;color:white;"id="score">0</span>
+				<span style="position:absolute;top:80px;color:white;"><strong>Result:</strong></span>
+				<span style="position:absolute;top:80px;right:80px;color:white;" id="result"></span>
+				<span style="position:absolute;top:120px;color:white;"><strong>Life:</strong></span>
+				<span style="position:absolute;top:120px;right:80px;color:red;" id="1" class="glyphicon glyphicon-heart-empty"></span>
+				<span style="position:absolute;top:120px;right:100px;color:red;" id="2" class="glyphicon glyphicon-heart-empty"></span>
+				<span style="position:absolute;top:120px;right:120px;color:red;" id="3" class="glyphicon glyphicon-heart-empty"></span>
+					<span style="position:absolute;top:160px;color:white;"><strong>Level:</strong></span>
+				<select id="sel" onclick="selectc(this.value)" style="position:absolute;top:160px;right:100px;color:white;background-color: #000000;">
+					<option selected="true" value="1">1</option>
+					<option value="2">2</option>
+                                                <!--
+                                                	地图绘制
+                                                -->
+					<option value="3">3</option>
+                                                <!--
+                                                	移动碰撞
+                                                -->
+				</select>
+			
+								    <div style="line-height: 550px;">
+			    <button  id="begin" type="button" class="btn btn-info" style="width:80px;margin-left:5px" onclick="Begin()">Begin</button>
+			     <button id="pause" type="button" class="btn btn-info" style="width:80px;margin-left:5px" onclick="Pause()"> Pause </button>
+			    </div>
+		           </div>
+		   
+		      
+		      
+		      
+		      
+		      <script>
+
+	  	var ctxw=document.getElementById("can");
+	  	var ctx=ctxw.getContext("2d");
+	  	var imageshead=document.getElementById("head");
+	  	var imagesbody=document.getElementById("body");
+	  	var imagesfood=document.getElementById("food");
+	  	var imageswall=document.getElementById("wall");
+		  var food;
+		  var snake;
+		  var score=0;
+		  var maps;
+		  var walls;
+		  var timer;
+		  var gameover=false;
+		  var level=1;
+		  var isStart=false;
+		  var isStop=false;
+		  var re=document.getElementById("result");
+		  var scores=document.getElementById("score");
+		  var music=document.getElementById("music");
+		  var done=document.getElementById("done");
+	  
+	      function selectc(value){
+	      
+	      	level=value;
+	      }
+	      function Gameover(){
+	     
+	      	
+	      	setTimeout(function(){
+	      		  	score=0;
+	      		scores.innerHTML=""+score+"";
+	      	},2000);
+	      	isStart=false;
+	      	gameover=true;
+	      	re.innerHTML="&nbsp;&nbsp;&nbsp;Gameover...";
+	
+	      	clearInterval(timer);
+	               	  	ctx.clearRect(0,0,800,400);
+	               	
+//	               	  snake.show();
+//	    if(level)
+//	      	drawMap();
+//	      	drawWall();
+	        
+	      }
+	  function Pause(){
+	  	
+	  	if(isStop){
+	  		isStop=false;
+	  	 timer=setInterval('snake.movebody()',1000);
+	  	}else{
+	  		 isStop=true;
+	  		 clearInterval(timer);
+	  		
+	  	}
+	  }
+	  function Begin(){
+	  	  music.play();
+	        if(!isStart){
+	        	if(level==1){
+	        		drawMap();
+	        	}
+	        	if(level==2){
+	        		drawMap();
+	        		drawWall();
+	        	}
+	       food=new Food();
+	  	  	food.createfood();
+	        	isStart=true;
+	        	gameover=false;
+	        	snake=new Snake();
+	        
+	        	re.innerHTML="Playing...";
+	     	food.show();	
+	     	if(timer!=null){
+	     		clearInterval(timer);
+	     	}
+	 timer=setInterval('snake.movebody()',1000);
+	 document.onkeydown=function(e){
+	  		var code=e.keyCode;
+	  		switch(code){
+	  			case 37://left
+	  			if(snake.bodys.length>0&&snake.direction==3)
+	  			console.log("1");
+	  			    else
+	  			      snake.direction=2;
+	  			      break;
+	  			case 38://up
+	  			if(snake.bodys.length>0&&snake.direction==1)
+	  			console.log("1");
+	  			    else
+	  			snake.direction=0;
+	  			break;
+	  			case 39://right
+	  			if(snake.bodys.length>0&&snake.direction==2)
+	  			console.log("1");
+	  			    else
+	  			snake.direction=3;
+	  			break;
+	  			case 40://down
+	  			if(snake.bodys.length>0&&snake.direction==0)
+	  			console.log("1");
+	  			    else
+	  			snake.direction=1;
+	  			break;
+	  		}
+	        }
+	  		
+	  }
+	 
+	  
+	  		
+	  }
+	
+function Snake(){
+	this.x=8;
+	this.y=8;
+	this.direction=3;   //0,1,2,3 表示上下左右
+	this.bodys=new Array();
+	this.show=function(){
+		if(gameover){
+			ctx.clearRect(this.x*40,this.y*40,40,40);
+			ctx.strokeRect(this.x*40,this.y*40,40,40);
+		}else{
+		    ctx.drawImage(imageshead,this.x*40,this.y*40,50,50) ;
+		    for(var i=0;i<this.bodys.length;i++){
+		             ctx.drawImage(imagesbody,this.bodys[i].x*40,this.bodys[i].y*40,50,50);
+		               }
+		   }
+		  
+	}
+	this.movebody=function(){
+		var isEat=false;
+	    if(this.bodys.length>0){
+		this.bodys.splice(0,0,{"x":this.x,"y":this.y});
+		var tail=this.bodys.pop();
+	     	ctx.clearRect(tail.x*40,tail.y*40,40,40);
+			ctx.strokeRect(tail.x*40,tail.y*40,40,40);
+		}
+	    else
+		{     
+		   if(!gameover){
+			ctx.clearRect(this.x*40,this.y*40,40,40);
+			ctx.strokeRect(this.x*40,this.y*40,40,40);
+			}
+		}
+		switch(this.direction){
+			case 0: this.y--;break;
+			case 1:this.y++;break;
+			case 2:this.x--;break;
+			case 3:this.x++;break;
+		}
+		if(level==2){
+		for(var i=0;i<8;i++){
+			if(this.x==walls[i].x&&this.y==walls[i].y){
+				 	music.pause();
+				done.play();
+				setTimeout("Gameover()",2000);
+				return;
+			  }
+		   }
+		}
+		for(var i=0;i<this.bodys.length;i++){
+			if(this.x==this.bodys[i].x&&this.y==this.bodys[i].y){
+				 	music.pause();
+				done.play();
+				setTimeout("Gameover()",2000);
+				return;
+			}
+		}
+		if(this.y==10||this.y==-1||this.x==-1||this.x==20){
+			 	music.pause();
+			done.play();
+			setTimeout("Gameover()",2000);
+	
+		return;
+		}
+		if(this.x==food.x&&this.y==food.y){    
+		this.bodys.splice(this.bodys.length,0,{"x":food.x,"y":food.y});
+		score++;
+		scores.innerHTML=""+score+"";
+		 food.createfood();
+		  for(var j=0;j<this.bodys.length;j++){
+		 	if(food.x==this.bodys[j].x&&food.y==this.bodys[j].y){
+	             food.createfood();
+		 	}
+		 }
+		 food.show();
+		}
+		this.show();
+		
+	}
+	
+}
+function Food(){
+	this.x=0;
+	this.y=0;
+	this.createfood=function(){
+		this.x=Math.floor(Math.random()*20);
+		this.y=Math.floor(Math.random()*10);
+		if(level==2){
+		 for(var i=0;i<8;i++){
+		 	console.log(this.x);
+		 	if(this.x==walls[i].x&&this.y==walls[i].y){
+		 		this.x=Math.floor(Math.random()*20);
+		this.y=Math.floor(Math.random()*10);
+		 	}
+		 }
+		}
+		
+	}
+	this.show=function(){
+		ctx.drawImage(imagesfood,this.x*40,this.y*40,40,40);
+	}
+}
+function drawWall(){
+	   walls=new Array();
+	   for(var i=0;i<8;i++){
+	   	walls[i]={"x":Math.floor(Math.random()*20),"y":Math.floor(Math.random()*10)};
+	   	if(walls[i].x==8&&walls[i].y==8){
+	   	   walls[i]={"x":Math.floor(Math.random()*20),"y":Math.floor(Math.random()*10)};
+	   	}
+	   }
+	   for(i=0;i<8;i++){
+	   	ctx.drawImage(imageswall,walls[i].x*40,walls[i].y*40,40,40);
+	   }
+	 	
+}
+function drawMap(){
+  var start =0;
+  ctx.beginPath();
+  var cell = 40;
+  var max = cell * 20 + start;
+  ctx.moveTo(start,start);
+   for(var i = 0;i <= 20 ;i++){//画竖线
+     var p = i * cell + start + 0.5;
+     ctx.lineTo(p,max);
+     ctx.moveTo(p+cell,start);
+   }
+ 
+   for(var i = 0;i <= 10 ;i++){//画横线
+     var p = i * cell + start + 0.5;
+     ctx.moveTo(start,p);
+     ctx.lineTo(max,p); 
+   }
+	
+   ctx.strokeStyle="#269ABC";
+   ctx.stroke();
+  }
+   
+	
+	  </script>
+	</body>
+</html>

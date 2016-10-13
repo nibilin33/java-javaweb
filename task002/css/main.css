@@ -1,0 +1,245 @@
+.container{
+    height: 100%;
+    width:100%;
+    min-width: 1300px;
+    min-height: 800px;
+    position: absolute;
+    display: inline-block;
+}
+
+input[type="checkbox"]{
+  display: none;
+ 
+}
+.ship-stat{
+    padding: 0;
+    margin: 0;
+}
+label:nth-of-type(2n+1):after{
+     content:"开始飞行";
+}
+.ship-list li input[type="checkbox"]:checked+label:nth-of-type(2n+1):after{
+     content:"停止飞行";
+     
+    
+}
+/*
+.ship-list li input[type="checkbox"]+#flight1{
+    animation-play-state: paused;
+} 
+*/
+label{
+    background: #4a398c;
+    color:aqua;
+    margin: 2px;
+}
+div#univers{
+    height: 100%;
+    width: 60%;
+    float:left;
+    position: relative;
+        background: #131212;
+    
+}
+div#univers h1{
+        font-size: 4em;
+    color: white;
+    margin-left: 300px;
+}
+div#siderbar{
+    height: 100%;
+    width: 40%;
+    float:left;
+    position: relative;
+    background-color: darkcyan;
+}
+.planet{
+    position: absolute;
+    top:50%;
+    bottom: 50%;
+}
+.planet img{
+      width: 300px;
+    height: 248px;
+    margin-left: 215px;
+    margin-top: -2px;
+}
+div#road0{
+    border: solid #dbe6e6;
+    position: absolute;
+    top:50%;
+    bottom: 50%;
+    width: 250px;
+    height: 250px;
+    border-radius:125px;
+    margin-left: 246px;
+    
+}
+div#road1{
+    border: solid #dbe6e6;
+    position: absolute;
+    top:50%;
+    bottom: 50%;
+    width: 350px;
+    height: 350px;
+    border-radius:275px;
+      margin-left: 190px;
+    margin-top: -50px;
+    
+}
+div#road2{
+    border: solid #dbe6e6;
+    position: absolute;
+    top:50%;
+    bottom: 50%;
+    width: 450px;
+    height: 450px;
+    border-radius:225px;
+    margin-left: 140px;
+margin-top: -100px;
+}
+div#road3{
+   border: solid #dbe6e6;
+    position: absolute;
+    top: 50%;
+    bottom: 20%;
+    width: 550px;
+    height: 550px;
+    border-radius: 275px;
+    margin-top: -176px;
+    margin-left: 90px;
+}
+header h1{
+    margin-left: 100px;
+    color: #E91E63;
+}
+.title{
+    height:30px;
+    width: 90%;
+    box-sizing: border-box;
+    margin:0 auto;
+}
+.title h1{
+    color: aliceblue;
+    margin: 0;
+    padding-left: 10px;
+    font-size: 1em;
+    background: rgba(0,0,0,0.5);
+    width: 76px;
+    border-radius: 10px 10px 0 0;
+}
+.board{
+   background: #009688;
+    margin-left: 24px;
+    margin-top: -10px;
+    width: 90%;
+        margin-bottom: 20px;
+}
+.select-one{
+   margin-left: 20px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+}
+.select-two{
+   margin-left: 20px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+}
+span{
+    color: aliceblue;
+    padding-left: 17px;
+    padding-right: 2px;
+}
+button{
+        background: #009688;
+    stroke: blue;
+    color: #dbe6e6;
+}
+select{
+    background: #7ac7c0;
+}
+li{
+    list-style: none;
+    color: aliceblue;
+}
+.control-console{
+  min-height: 300px;
+  height: 37.5%;
+  max-height: 400px;
+}
+ul.ship-list{
+    padding-left: 10px;
+    width: 88%;
+    height: 95%;
+    margin-top: -11px;
+    overflow-y: auto;
+    background: #009688;
+    margin-left: 26px;
+}
+.flight{
+    width: 49px;
+    margin: 0px;
+    position:absolute;
+}
+.flight img{
+    width: 66px;
+    height: 66px;
+}
+.flight p{
+     margin-top: -37px;
+    color: aliceblue;
+    margin-bottom: 0;
+    font-size: x-small;
+}
+@keyframes circle {
+    from {   transform: rotateZ(0deg)    }
+    to {        transform: rotateZ(360deg)    }
+}
+@-webkit-keyframes circle {
+    0% {   -webkit-transform: rotateZ(0deg)    }
+    100% {        -webkit-transform: rotateZ(360deg)    }
+}
+@keyframes ccircle {
+    from {        transform: rotateZ(360deg)    }
+    to {        transform: rotateZ(0deg)    }
+}
+@-webkit-keyframes ccircle {
+    from { -webkit-transform: rotateZ(360deg) }
+    to   { -webkit-transform: rotateZ(0deg)   }
+}
+#flight1{
+    
+/*
+    -webkit-animation-duration: 1s;
+        -webkit-animation-timing-function: linear;
+        -webkit-animation-name: "ccircle";
+*/
+   -webkit-transform-origin:250% 250%;
+ 
+/*	-webkit-animation:ccircle 5s infinite linear;*/
+}
+#flight2{
+     -webkit-transform-origin:350% 350%;
+/*    -webkit-animation:ccircle 5s infinite linear;*/
+}
+#flight3{
+     -webkit-transform-origin:450% 450%;
+ 
+/*	-webkit-animation:ccircle 5s infinite linear;*/
+}
+#flight4{
+     -webkit-transform-origin:550% 560%;
+ 
+/*	-webkit-animation:ccircle 5s infinite linear;*/
+}
+
+.start{
+-webkit-animation:ccircle 5s infinite linear;
+     animation-play-state: running;
+
+}
+
+.stop{
+    animation-play-state: paused;
+}
+
