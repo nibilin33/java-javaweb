@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fase.mapper.FuserMapper">
+  <resultMap id="BaseResultMap" type="com.fase.po.Fuser">
+    <id column="FUID" jdbcType="VARCHAR" property="fuid" />
+    <result column="FNAME" jdbcType="VARCHAR" property="fname" />
+    <result column="FCOUNT" jdbcType="VARCHAR" property="fcount" />
+    <result column="FSEX" jdbcType="DECIMAL" property="fsex" />
+    <result column="FBIRTHDAY" jdbcType="DATE" property="fbirthday" />
+    <result column="FTEL" jdbcType="VARCHAR" property="ftel" />
+    <result column="FEMAIL" jdbcType="VARCHAR" property="femail" />
+    <result column="FPASSWORD" jdbcType="VARCHAR" property="fpassword" />
+    <result column="FLIVEPLACE" jdbcType="VARCHAR" property="fliveplace" />
+    <result column="FHEADIMAGE" jdbcType="VARCHAR" property="fheadimage" />
+    <result column="FBACKIMAGE" jdbcType="VARCHAR" property="fbackimage" />
+    <result column="FHTTP" jdbcType="VARCHAR" property="fhttp" />
+    <result column="FSOCIALLINK" jdbcType="VARCHAR" property="fsociallink" />
+    <result column="FSEXLIKE" jdbcType="DECIMAL" property="fsexlike" />
+    <result column="FBLODTYPE" jdbcType="VARCHAR" property="fblodtype" />
+    <result column="FEMOTION" jdbcType="VARCHAR" property="femotion" />
+    <result column="FPERSONAL" jdbcType="VARCHAR" property="fpersonal" />
+    <result column="FLIKEWORD" jdbcType="VARCHAR" property="flikeword" />
+    <result column="FSTATE" jdbcType="DECIMAL" property="fstate" />
+    <result  column="FHOMETOWN" jdbcType="VARCHAR" property="fhometown"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    FUID, FNAME, FCOUNT, FSEX, FBIRTHDAY, FTEL, FEMAIL, FPASSWORD, FLIVEPLACE, FHEADIMAGE, 
+    FBACKIMAGE, FHTTP, FSOCIALLINK, FSEXLIKE, FBLODTYPE, FEMOTION, FPERSONAL, FLIKEWORD, 
+    FSTATE,FHOMETOWN
+  </sql>
+<select id="selectSmartbycount" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select 
+    <include refid="Base_Column_List" />
+    from FUSER
+    where FCOUNT like concat(concat('%',#{_parameter,jdbcType=VARCHAR}),'%') 
+</select>
+<select id="selectbySchool" statementType="CALLABLE" parameterType="java.util.Map">
+<![CDATA[
+     call cy(#{uschool,mode=IN,jdbcType=VARCHAR},#{result,jdbcType=CURSOR,mode=OUT,javaType=java.sql.ResultSet,resultMap=com.fase.mapper.FuserMapper.BaseResultMap})
+     ]]> 
+</select>
+<select id="selectbyMulti" parameterType="com.fase.po.Fuser" resultMap="BaseResultMap" >
+select  <include refid="Base_Column_List" /> from FUSER
+   <where>
+   <if test="fname != null">
+  FNAME = #{fname,jdbcType=VARCHAR}
+   </if>
+   <if test="fcount != null ">
+ AND  FCOUNT = #{fcount,jdbcType=VARCHAR}
+   </if>
+      <if test="fbirthday != null">
+ AND  FBIRTHDAY = #{fbirthday,jdbcType=DATE}
+   </if>
+       <if test="fliveplace != null ">
+ AND  FLIVEPLACE = #{fliveplace,jdbcType=VARCHAR}
+   </if>
+   </where>
+</select>
+  <select id="selectByphoneOrmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List" /> from FUSER where FTEL=#{_parameter,jdbcType=VARCHAR} union select <include refid="Base_Column_List" /> from FUSER where FEMAIL=#{_parameter,jdbcType=VARCHAR} union select  <include refid="Base_Column_List" /> from FUSER where FCOUNT=#{_parameter,jdbcType=VARCHAR}
+  </select>
+<select id="selectBylocation" statementType="CALLABLE" parameterType="java.util.Map">
+  <![CDATA[
+     call find_finds(#{fuid,mode=IN,jdbcType=VARCHAR},#{liveplace,mode=IN,jdbcType=VARCHAR},#{results,jdbcType=CURSOR,mode=OUT,javaType=java.sql.ResultSet,resultMap=com.fase.mapper.FuserMapper.BaseResultMap})
+     ]]>
+</select>
+  <select id="selectByname"  resultMap="BaseResultMap" parameterType="map">
+   select 
+    <include refid="Base_Column_List" />
+    from FUSER where
+    <if test="_parameter.ftel!=null">
+       FTEL=#{_parameter.ftel}
+    </if>
+    <if test="_parameter.femail!=null">
+     FEMAIL=#{_parameter.femail}
+    </if>
+  </select>
+  <select id="selectByCount" resultMap="BaseResultMap" parameterType="java.lang.String">
+         select 
+    <include refid="Base_Column_List" />
+    from FUSER where FNAME=#{_parameter,jdbcType=VARCHAR}
+  </select>
+  <select id="selectFormailFid" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select 
+    <include refid="Base_Column_List" />
+    from FUSER where FCOUNT=#{_parameter,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByTel" parameterType="java.lang.String" resultType="int">
+    select count(1) from FUSER where FTEL=#{_parameter,jdbcType=VARCHAR}
+  </select>
+    <select id="selectByTel2" parameterType="java.lang.String" resultType="int">
+    select count(1) from FUSER where FEMAIL=#{_parameter,jdbcType=VARCHAR}
+  </select>
+<!--   <when test='_parameter.indexOf("%") != -1'>   -->
+  <select id="selectBymap" parameterType="list" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List" />
+     from FUSER where FEMAIL=#{0,jdbcType=VARCHAR} and FPASSWORD=#{1,jdbcType=VARCHAR}
+  </select>
+   <select id="selectBymap2" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List" />
+     from FUSER where FTEL= #{0,jdbcType=VARCHAR} and FPASSWORD=#{1,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from FUSER
+    where FUID = #{fuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from FUSER
+    where FUID = #{fuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Fuser">
+    insert into FUSER (FUID, FNAME, FCOUNT, 
+      FSEX, FBIRTHDAY, FTEL, 
+      FEMAIL, FPASSWORD, FLIVEPLACE, 
+      FHEADIMAGE, FBACKIMAGE, FHTTP, 
+      FSOCIALLINK, FSEXLIKE, FBLODTYPE, 
+      FEMOTION, FPERSONAL, FLIKEWORD, 
+      FSTATE,FHOMETOWN)
+    values (#{fuid,jdbcType=VARCHAR}, #{fname,jdbcType=VARCHAR}, #{fcount,jdbcType=VARCHAR}, 
+      #{fsex,jdbcType=DECIMAL}, #{fbirthday,jdbcType=DATE}, #{ftel,jdbcType=VARCHAR}, 
+      #{femail,jdbcType=VARCHAR}, #{fpassword,jdbcType=VARCHAR}, #{fliveplace,jdbcType=VARCHAR}, 
+      #{fheadimage,jdbcType=VARCHAR}, #{fbackimage,jdbcType=VARCHAR}, #{fhttp,jdbcType=VARCHAR}, 
+      #{fsociallink,jdbcType=VARCHAR}, #{fsexlike,jdbcType=DECIMAL}, #{fblodtype,jdbcType=VARCHAR}, 
+      #{femotion,jdbcType=VARCHAR}, #{fpersonal,jdbcType=VARCHAR}, #{flikeword,jdbcType=VARCHAR}, 
+      #{fstate,jdbcType=DECIMAL},#{fhometown,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Fuser">
+    insert into FUSER 
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fname != null">
+        FNAME,
+      </if>
+      <if test="fcount != null">
+        FCOUNT,
+      </if>
+      <if test="fsex != null">
+        FSEX,
+      </if>
+      <if test="fbirthday != null">
+        FBIRTHDAY,
+      </if>
+      <if test="ftel != null">
+        FTEL,
+      </if>
+      <if test="femail != null">
+        FEMAIL,
+      </if>
+      <if test="fpassword != null">
+        FPASSWORD,
+      </if>
+      <if test="fliveplace != null">
+        FLIVEPLACE,
+      </if>
+      <if test="fheadimage != null">
+        FHEADIMAGE,
+      </if>
+      <if test="fbackimage != null">
+        FBACKIMAGE,
+      </if>
+      <if test="fhttp != null">
+        FHTTP,
+      </if>
+      <if test="fsociallink != null">
+        FSOCIALLINK,
+      </if>
+      <if test="fsexlike != null">
+        FSEXLIKE,
+      </if>
+      <if test="fblodtype != null">
+        FBLODTYPE,
+      </if>
+      <if test="femotion != null">
+        FEMOTION,
+      </if>
+      <if test="fpersonal != null">
+        FPERSONAL,
+      </if>
+      <if test="flikeword != null">
+        FLIKEWORD,
+      </if>
+      <if test="fstate != null">
+        FSTATE,
+      </if>
+      <if test="fhometown !=null">
+      FHOMETOWN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fname != null">
+        #{fname,jdbcType=VARCHAR},
+      </if>
+      <if test="fcount != null">
+        #{fcount,jdbcType=VARCHAR},
+      </if>
+      <if test="fsex != null">
+        #{fsex,jdbcType=DECIMAL},
+      </if>
+      <if test="fbirthday != null">
+        #{fbirthday,jdbcType=DATE},
+      </if>
+      <if test="ftel != null">
+        #{ftel,jdbcType=VARCHAR},
+      </if>
+      <if test="femail != null">
+        #{femail,jdbcType=VARCHAR},
+      </if>
+      <if test="fpassword != null">
+        #{fpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="fliveplace != null">
+        #{fliveplace,jdbcType=VARCHAR},
+      </if>
+      <if test="fheadimage != null">
+        #{fheadimage,jdbcType=VARCHAR},
+      </if>
+      <if test="fbackimage != null">
+        #{fbackimage,jdbcType=VARCHAR},
+      </if>
+      <if test="fhttp != null">
+        #{fhttp,jdbcType=VARCHAR},
+      </if>
+      <if test="fsociallink != null">
+        #{fsociallink,jdbcType=VARCHAR},
+      </if>
+      <if test="fsexlike != null">
+        #{fsexlike,jdbcType=DECIMAL},
+      </if>
+      <if test="fblodtype != null">
+        #{fblodtype,jdbcType=VARCHAR},
+      </if>
+      <if test="femotion != null">
+        #{femotion,jdbcType=VARCHAR},
+      </if>
+      <if test="fpersonal != null">
+        #{fpersonal,jdbcType=VARCHAR},
+      </if>
+      <if test="flikeword != null">
+        #{flikeword,jdbcType=VARCHAR},
+      </if>
+      <if test="fstate != null">
+        #{fstate,jdbcType=DECIMAL},
+      </if>
+      <if test="fhometown !=null">
+      #{fhometown,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Fuser">
+    update FUSER
+    <set>
+      <if test="fname != null">
+        FNAME = #{fname,jdbcType=VARCHAR},
+      </if>
+      <if test="fcount != null">
+        FCOUNT = #{fcount,jdbcType=VARCHAR},
+      </if>
+      <if test="fsex != null">
+        FSEX = #{fsex,jdbcType=DECIMAL},
+      </if>
+      <if test="fbirthday != null">
+        FBIRTHDAY = #{fbirthday,jdbcType=DATE},
+      </if>
+      <if test="ftel != null">
+        FTEL = #{ftel,jdbcType=VARCHAR},
+      </if>
+      <if test="femail != null">
+        FEMAIL = #{femail,jdbcType=VARCHAR},
+      </if>
+      <if test="fpassword != null">
+        FPASSWORD = #{fpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="fliveplace != null">
+        FLIVEPLACE = #{fliveplace,jdbcType=VARCHAR},
+      </if>
+      <if test="fheadimage != null">
+        FHEADIMAGE = #{fheadimage,jdbcType=VARCHAR},
+      </if>
+      <if test="fbackimage != null">
+        FBACKIMAGE = #{fbackimage,jdbcType=VARCHAR},
+      </if>
+      <if test="fhttp != null">
+        FHTTP = #{fhttp,jdbcType=VARCHAR},
+      </if>
+      <if test="fsociallink != null">
+        FSOCIALLINK = #{fsociallink,jdbcType=VARCHAR},
+      </if>
+      <if test="fsexlike != null">
+        FSEXLIKE = #{fsexlike,jdbcType=DECIMAL},
+      </if>
+      <if test="fblodtype != null">
+        FBLODTYPE = #{fblodtype,jdbcType=VARCHAR},
+      </if>
+      <if test="femotion != null">
+        FEMOTION = #{femotion,jdbcType=VARCHAR},
+      </if>
+      <if test="fpersonal != null">
+        FPERSONAL = #{fpersonal,jdbcType=VARCHAR},
+      </if>
+      <if test="flikeword != null">
+        FLIKEWORD = #{flikeword,jdbcType=VARCHAR},
+      </if>
+      <if test="fstate != null">
+        FSTATE = #{fstate,jdbcType=DECIMAL},
+      </if>
+      <if test="fhometown !=null">
+       FHOMETOWN =#{fhometown,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where FUID = #{fuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Fuser">
+    update FUSER
+    set FNAME = #{fname,jdbcType=VARCHAR},
+      FCOUNT = #{fcount,jdbcType=VARCHAR},
+      FSEX = #{fsex,jdbcType=DECIMAL},
+      FBIRTHDAY = #{fbirthday,jdbcType=DATE},
+      FTEL = #{ftel,jdbcType=VARCHAR},
+      FEMAIL = #{femail,jdbcType=VARCHAR},
+      FPASSWORD = #{fpassword,jdbcType=VARCHAR},
+      FLIVEPLACE = #{fliveplace,jdbcType=VARCHAR},
+      FHEADIMAGE = #{fheadimage,jdbcType=VARCHAR},
+      FBACKIMAGE = #{fbackimage,jdbcType=VARCHAR},
+      FHTTP = #{fhttp,jdbcType=VARCHAR},
+      FSOCIALLINK = #{fsociallink,jdbcType=VARCHAR},
+      FSEXLIKE = #{fsexlike,jdbcType=DECIMAL},
+      FBLODTYPE = #{fblodtype,jdbcType=VARCHAR},
+      FEMOTION = #{femotion,jdbcType=VARCHAR},
+      FPERSONAL = #{fpersonal,jdbcType=VARCHAR},
+      FLIKEWORD = #{flikeword,jdbcType=VARCHAR},
+      FSTATE = #{fstate,jdbcType=DECIMAL},
+      FHOMETOWN = #{fhometown,jdbcType=VARCHAR}
+    where FUID = #{fuid,jdbcType=VARCHAR}
+  </update>
+ 
+</mapper>

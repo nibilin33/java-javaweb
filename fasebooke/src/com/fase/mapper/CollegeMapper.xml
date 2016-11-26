@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.CollegeMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.College" >
+    <id column="COID" property="coid" jdbcType="VARCHAR" />
+    <result column="CNAME" property="cname" jdbcType="VARCHAR" />
+    <result column="CURL" property="curl" jdbcType="VARCHAR" />
+    <result column="CLOCATION" property="clocation" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    COID, CNAME, CURL, CLOCATION
+  </sql>
+   <select id="selectforURL" parameterType="java.lang.String" resultType="java.lang.String">
+  select CURL from COLLEGE where CNAME = #{_parameter,jdbcType=VARCHAR}
+  </select>
+   <select id="selectBylike" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select 
+    <include refid="Base_Column_List" />
+    from COLLEGE
+    where CNAME like concat(concat('%',#{_parameter,jdbcType=VARCHAR}),'%')
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from COLLEGE
+    where COID = #{coid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from COLLEGE
+    where COID = #{coid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.College" >
+    insert into COLLEGE (COID, CNAME, CURL, 
+      CLOCATION)
+    values (#{coid,jdbcType=VARCHAR}, #{cname,jdbcType=VARCHAR}, #{curl,jdbcType=VARCHAR}, 
+      #{clocation,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.College" >
+    insert into COLLEGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="coid != null" >
+        COID,
+      </if>
+      <if test="cname != null" >
+        CNAME,
+      </if>
+      <if test="curl != null" >
+        CURL,
+      </if>
+      <if test="clocation != null" >
+        CLOCATION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="coid != null" >
+        #{coid,jdbcType=VARCHAR},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="curl != null" >
+        #{curl,jdbcType=VARCHAR},
+      </if>
+      <if test="clocation != null" >
+        #{clocation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.College" >
+    update COLLEGE
+    <set >
+      <if test="cname != null" >
+        CNAME = #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="curl != null" >
+        CURL = #{curl,jdbcType=VARCHAR},
+      </if>
+      <if test="clocation != null" >
+        CLOCATION = #{clocation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COID = #{coid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.College" >
+    update COLLEGE
+    set CNAME = #{cname,jdbcType=VARCHAR},
+      CURL = #{curl,jdbcType=VARCHAR},
+      CLOCATION = #{clocation,jdbcType=VARCHAR}
+    where COID = #{coid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.NotificationMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Notification" >
+    <id column="NID" property="nid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="NOTE" property="note" jdbcType="VARCHAR" />
+    <result column="ISREAD" property="isread" jdbcType="DECIMAL" />
+    <result column="ASKTIME" property="asktime" jdbcType="DATE"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    NID, FUID, NOTE, ISREAD
+  </sql>
+  <select id="selectByfuid" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from NOTIFICATION
+    where FUID = #{fuid,jdbcType=VARCHAR} and ISREAD=0 order by ASKTIME DESC
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from NOTIFICATION
+    where NID = #{nid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from NOTIFICATION
+    where NID = #{nid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Notification" >
+    insert into NOTIFICATION (NID, FUID, NOTE, 
+      ISREAD)
+    values (#{nid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{isread,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Notification" >
+    insert into NOTIFICATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nid != null" >
+        NID,
+      </if>
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="note != null" >
+        NOTE,
+      </if>
+      <if test="isread != null" >
+        ISREAD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nid != null" >
+        #{nid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="isread != null" >
+        #{isread,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Notification" >
+    update NOTIFICATION
+    <set >
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="isread != null" >
+        ISREAD = #{isread,jdbcType=DECIMAL},
+      </if>
+      <if test="asktime != null">
+      ASKTIME = #{asktime,jdbcType=DATE}
+      </if>
+    </set>
+    where NID = #{nid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Notification" >
+    update NOTIFICATION
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      ISREAD = #{isread,jdbcType=DECIMAL}
+    where NID = #{nid,jdbcType=VARCHAR}
+  </update>
+</mapper>

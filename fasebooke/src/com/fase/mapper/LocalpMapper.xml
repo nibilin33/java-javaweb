@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.LocalpMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Localp" >
+    <id column="LID" property="lid" jdbcType="VARCHAR" />
+    <result column="LPROVICE" property="lprovice" jdbcType="VARCHAR" />
+    <result column="LCITY" property="lcity" jdbcType="VARCHAR" />
+    <result column="LURL" property="lurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LID, LPROVICE, LCITY, LURL
+  </sql>
+   <select id="selectBylike" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select 
+    <include refid="Base_Column_List" />
+    from LOCALP
+    where LPROVICE like concat(concat('%',#{_parameter,jdbcType=VARCHAR}),'%') union  select 
+    <include refid="Base_Column_List" />
+    from LOCALP
+    where LCITY like concat(concat('%',#{_parameter,jdbcType=VARCHAR}),'%')
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select  
+    <include refid="Base_Column_List" />
+    from LOCALP
+    where LID = #{lid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectforURL" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" /> from LOCALP where LPROVICE = #{_parameter,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LOCALP
+    where LID = #{lid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Localp" >
+    insert into LOCALP (LID, LPROVICE, LCITY, 
+      LURL)
+    values (#{lid,jdbcType=VARCHAR}, #{lprovice,jdbcType=VARCHAR}, #{lcity,jdbcType=VARCHAR}, 
+      #{lurl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Localp" >
+    insert into LOCALP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lid != null" >
+        LID,
+      </if>
+      <if test="lprovice != null" >
+        LPROVICE,
+      </if>
+      <if test="lcity != null" >
+        LCITY,
+      </if>
+      <if test="lurl != null" >
+        LURL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lid != null" >
+        #{lid,jdbcType=VARCHAR},
+      </if>
+      <if test="lprovice != null" >
+        #{lprovice,jdbcType=VARCHAR},
+      </if>
+      <if test="lcity != null" >
+        #{lcity,jdbcType=VARCHAR},
+      </if>
+      <if test="lurl != null" >
+        #{lurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Localp" >
+    update LOCALP
+    <set >
+      <if test="lprovice != null" >
+        LPROVICE = #{lprovice,jdbcType=VARCHAR},
+      </if>
+      <if test="lcity != null" >
+        LCITY = #{lcity,jdbcType=VARCHAR},
+      </if>
+      <if test="lurl != null" >
+        LURL = #{lurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LID = #{lid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Localp" >
+    update LOCALP
+    set LPROVICE = #{lprovice,jdbcType=VARCHAR},
+      LCITY = #{lcity,jdbcType=VARCHAR},
+      LURL = #{lurl,jdbcType=VARCHAR}
+    where LID = #{lid,jdbcType=VARCHAR}
+  </update>
+</mapper>

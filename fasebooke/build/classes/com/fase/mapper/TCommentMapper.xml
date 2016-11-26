@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.TCommentMapper">
+<resultMap type="com.fase.po.TComment" id="BaseResultMap">
+  <id column="COMID" property="id" jdbcType="VARCHAR" />
+    <result column="FUID" property="customerId" jdbcType="VARCHAR" />
+    <result column="PARENT_COMMENT_ID" property="parentCommentId" jdbcType="VARCHAR" />
+     <result column="CONTENT_ID" property="contentId" jdbcType="VARCHAR" />
+     <result column="CONTENT" property="content" jdbcType="VARCHAR"/>
+    <result column="CTYPE" property="type" jdbcType="DECIMAL" />
+    <result column="COMMENT_DATE" property="commetDate" jdbcType="VARCHAR" />
+     <result column="COMMENT_TIME" property="commetTime" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+</resultMap>
+ <sql id="Base_Column_List">
+ COMID,FUID,PARENT_COMMENT_ID,CONTENT_ID,CTYPE,COMMENT_DATE,COMMENT_TIME,STATE
+ </sql>
+ 
+<insert id="insertcomment" parameterType="com.fase.po.TComment">
+ <selectKey resultType="String" order="AFTER" keyProperty="id">
+	   SELECT s_tcomment.currval as COMID from DUAL
+   </selectKey>
+   insert into T_COMMENT 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="customerId != null" >
+        FUID,
+      </if>
+      <if test="parentCommentId != null" >
+        PARENT_COMMENT_ID,
+      </if>
+      <if test="contentId != null" >
+        CONTENT_ID,
+      </if>
+      <if test="content!=null">
+      CONTENT,
+      </if>
+      <if test="type!=null">
+      CTYPE,
+      </if>
+      <if test="commetDate != null" >
+        COMMENT_DATE,
+      </if>
+      <if test="commetTime != null" >
+        COMMENT_TIME,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="customerId != null" >
+       #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCommentId != null" >
+       #{parentCommentId,jdbcType=VARCHAR},
+      </if>
+      <if test="contentId != null" >
+            #{contentId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+      #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="commetDate != null" >
+      #{commetDate,jdbcType=VARCHAR},
+      </if>
+      <if test="commetTime != null" >
+       #{commetTime,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+         #{state,jdbcType=DECIMAL},
+      </if>
+    </trim>
+ </insert>
+<!--   <insert id="insertcomment" statementType="CALLABLE" parameterType="com.fase.po.TComment">
+  <![CDATA[
+     call insertTcomment(#{customerId,mode=IN,jdbcType=VARCHAR},#{contentId,mode=IN,jdbcType=VARCHAR},#{type,mode=IN,jdbcType=DECIMAL},#{content,mode=IN,jdbcType=VARCHAR},#{parentCommentId,mode=IN,jdbcType=VARCHAR},#{commetDate,mode=IN,jdbcType=VARCHAR},#{commetTime,mode=IN,jdbcType=VARCHAR},#{result,mode=OUT,jdbcType=DECIMAL})
+     ]]>
+ </insert> -->
+ <select id="selectemotionbyid" statementType="CALLABLE" parameterType="java.util.Map">
+  <![CDATA[
+     call findparentEmotion(#{pid,mode=IN,jdbcType=VARCHAR},#{offset,mode=IN,jdbcType=DECIMAL},#{maxs,mode=IN,jdbcType=DECIMAL},#{result,jdbcType=CURSOR,mode=OUT,javaType=java.sql.ResultSet,resultMap=com.fase.mapper.TCommentMapper.BaseResultMap})
+     ]]>
+ </select>
+<select id="selectparentbyid" statementType="CALLABLE" parameterType="java.util.Map">
+ <![CDATA[
+     call findparent(#{pid,mode=IN,jdbcType=VARCHAR},#{offset,mode=IN,jdbcType=DECIMAL},#{maxs,mode=IN,jdbcType=DECIMAL},#{result,jdbcType=CURSOR,mode=OUT,javaType=java.sql.ResultSet,resultMap=com.fase.mapper.TCommentMapper.BaseResultMap})
+     ]]>
+
+</select>
+<select id="selectreplybyid" statementType="CALLABLE" parameterType="java.util.Map" >
+ <![CDATA[
+     call findreply(#{pid,mode=IN,jdbcType=VARCHAR},#{offset,mode=IN,jdbcType=DECIMAL},#{maxs,mode=IN,jdbcType=DECIMAL},#{result,jdbcType=CURSOR,mode=OUT,javaType=java.sql.ResultSet,resultMap=com.fase.mapper.TCommentMapper.BaseResultMap})
+     ]]>
+</select>
+</mapper>

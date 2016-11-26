@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fase.mapper.BlockingMapper">
+  <resultMap id="BaseResultMap" type="com.fase.po.Blocking">
+    <id column="BID" jdbcType="VARCHAR" property="bid" />
+    <result column="FUID" jdbcType="VARCHAR" property="fuid" />
+    <result column="BFUID" jdbcType="VARCHAR" property="bfuid" />
+    <result column="BLOCKTYPE" jdbcType="DECIMAL" property="blocktype" />
+    <result column="ISDELETE" jdbcType="DECIMAL" property="isdelete" />
+    <result column="FZHUYEID" jdbcType="VARCHAR" property="fzhuyeid" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List">
+    BID, FUID, BFUID, BLOCKTYPE, ISDELETE, FZHUYEID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BLOCKING
+    where BID = #{bid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectallbyfuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List" /> from BLOCKING where FUID=#{_parameter,jdbcType=VARCHAR} 
+  </select>
+  <select id="selectbid" parameterType="java.util.Map" resultType="java.lang.String">
+  select BID from BLOCKING where FUID=#{fuid,jdbcType=VARCHAR} and BFUID=#{bfuid,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.fase.po.Blocking">
+    insert into BLOCKING (BID, FUID, BFUID, 
+      BLOCKTYPE, ISDELETE, FZHUYEID
+      )
+    values (#{bid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{bfuid,jdbcType=VARCHAR}, 
+      #{blocktype,jdbcType=DECIMAL}, #{isdelete,jdbcType=DECIMAL}, #{fzhuyeid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Blocking">
+    insert into BLOCKING
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fuid != null">
+        FUID,
+      </if>
+      <if test="bfuid != null">
+        BFUID,
+      </if>
+      <if test="blocktype != null">
+        BLOCKTYPE,
+      </if>
+      <if test="isdelete != null">
+        ISDELETE,
+      </if>
+      <if test="fzhuyeid != null">
+        FZHUYEID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fuid != null">
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="bfuid != null">
+        #{bfuid,jdbcType=VARCHAR},
+      </if>
+      <if test="blocktype != null">
+        #{blocktype,jdbcType=DECIMAL},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=DECIMAL},
+      </if>
+      <if test="fzhuyeid != null">
+        #{fzhuyeid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+ 
+ 
+
+ 
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from BLOCKING
+    where BID = #{bid,jdbcType=VARCHAR}
+  </delete>
+ 
+ 
+ 
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Blocking">
+    update BLOCKING
+    <set>
+      <if test="fuid != null">
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="bfuid != null">
+        BFUID = #{bfuid,jdbcType=VARCHAR},
+      </if>
+      <if test="blocktype != null">
+        BLOCKTYPE = #{blocktype,jdbcType=DECIMAL},
+      </if>
+      <if test="isdelete != null">
+        ISDELETE = #{isdelete,jdbcType=DECIMAL},
+      </if>
+      <if test="fzhuyeid != null">
+        FZHUYEID = #{fzhuyeid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BID = #{bid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Blocking">
+    update BLOCKING
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      BFUID = #{bfuid,jdbcType=VARCHAR},
+      BLOCKTYPE = #{blocktype,jdbcType=DECIMAL},
+      ISDELETE = #{isdelete,jdbcType=DECIMAL},
+      FZHUYEID = #{fzhuyeid,jdbcType=VARCHAR}
+    where BID = #{bid,jdbcType=VARCHAR}
+  </update>
+  <delete id="deletebyfb" parameterType="map">
+  delete from BLOCKING where FUID = #{fuid,jdbcType=VARCHAR} and
+      BFUID = #{bfuid,jdbcType=VARCHAR}
+  </delete>
+</mapper>

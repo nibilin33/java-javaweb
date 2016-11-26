@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.HelpcenterMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Helpcenter" >
+    <id column="HELPID" property="helpid" jdbcType="VARCHAR" />
+    <result column="QUESTIONS" property="questions" jdbcType="VARCHAR" />
+    <result column="ANS" property="ans" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    HELPID, QUESTIONS, ANS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HELPCENTER
+    where HELPID = #{helpid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HELPCENTER
+    where HELPID = #{helpid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Helpcenter" >
+    insert into HELPCENTER (HELPID, QUESTIONS, ANS
+      )
+    values (#{helpid,jdbcType=VARCHAR}, #{questions,jdbcType=VARCHAR}, #{ans,jdbcType=VARCHAR}
+      )
+  </insert>
+  <select id="selectBylike" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select 
+    <include refid="Base_Column_List" />
+    from HELPCENTER
+    where QUESTIONS like concat(concat('%',#{_parameter,jdbcType=VARCHAR}),'%') 
+  </select>
+  <select id="selectByquestion" resultType="java.lang.String" parameterType="java.lang.String">
+    select ANS from HELPCENTER where QUESTIONS=#{_parameter,jdbcType=VARCHAR}
+  </select>
+  <insert id="insertSelective" parameterType="com.fase.po.Helpcenter" >
+    insert into HELPCENTER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="helpid != null" >
+        HELPID,
+      </if>
+      <if test="questions != null" >
+        QUESTIONS,
+      </if>
+      <if test="ans != null" >
+        ANS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="helpid != null" >
+        #{helpid,jdbcType=VARCHAR},
+      </if>
+      <if test="questions != null" >
+        #{questions,jdbcType=VARCHAR},
+      </if>
+      <if test="ans != null" >
+        #{ans,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Helpcenter" >
+    update HELPCENTER
+    <set >
+      <if test="questions != null" >
+        QUESTIONS = #{questions,jdbcType=VARCHAR},
+      </if>
+      <if test="ans != null" >
+        ANS = #{ans,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where HELPID = #{helpid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Helpcenter" >
+    update HELPCENTER
+    set QUESTIONS = #{questions,jdbcType=VARCHAR},
+      ANS = #{ans,jdbcType=VARCHAR}
+    where HELPID = #{helpid,jdbcType=VARCHAR}
+  </update>
+</mapper>

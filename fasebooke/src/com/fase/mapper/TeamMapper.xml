@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.TeamMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Team" >
+    <id column="TEAMID" property="teamid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="DATE" />
+    <result column="MEMBERSUM" property="membersum" jdbcType="DECIMAL" />
+    <result column="TEAMICON" property="teamicon" jdbcType="VARCHAR" />
+    <result column="TEAMTYPE" property="teamtype" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TEAMID, FUID, CREATETIME, MEMBERSUM, TEAMICON, TEAMTYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TEAM
+    where TEAMID = #{teamid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TEAM
+    where TEAMID = #{teamid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Team" >
+    insert into TEAM (TEAMID, FUID, CREATETIME, 
+      MEMBERSUM, TEAMICON, TEAMTYPE
+      )
+    values (#{teamid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{createtime,jdbcType=DATE}, 
+      #{membersum,jdbcType=DECIMAL}, #{teamicon,jdbcType=VARCHAR}, #{teamtype,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Team" >
+    insert into TEAM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teamid != null" >
+        TEAMID,
+      </if>
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="membersum != null" >
+        MEMBERSUM,
+      </if>
+      <if test="teamicon != null" >
+        TEAMICON,
+      </if>
+      <if test="teamtype != null" >
+        TEAMTYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teamid != null" >
+        #{teamid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="membersum != null" >
+        #{membersum,jdbcType=DECIMAL},
+      </if>
+      <if test="teamicon != null" >
+        #{teamicon,jdbcType=VARCHAR},
+      </if>
+      <if test="teamtype != null" >
+        #{teamtype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Team" >
+    update TEAM
+    <set >
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="membersum != null" >
+        MEMBERSUM = #{membersum,jdbcType=DECIMAL},
+      </if>
+      <if test="teamicon != null" >
+        TEAMICON = #{teamicon,jdbcType=VARCHAR},
+      </if>
+      <if test="teamtype != null" >
+        TEAMTYPE = #{teamtype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TEAMID = #{teamid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Team" >
+    update TEAM
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=DATE},
+      MEMBERSUM = #{membersum,jdbcType=DECIMAL},
+      TEAMICON = #{teamicon,jdbcType=VARCHAR},
+      TEAMTYPE = #{teamtype,jdbcType=VARCHAR}
+    where TEAMID = #{teamid,jdbcType=VARCHAR}
+  </update>
+</mapper>

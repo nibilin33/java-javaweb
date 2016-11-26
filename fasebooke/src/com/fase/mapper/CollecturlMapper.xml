@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.CollecturlMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Collecturl" >
+    <id column="CUID" property="cuid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="URLS" property="urls" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CUID, FUID, URLS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from COLLECTURL
+    where CUID = #{cuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from COLLECTURL
+    where CUID = #{cuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Collecturl" >
+    insert into COLLECTURL (CUID, FUID, URLS
+      )
+    values (#{cuid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{urls,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Collecturl" >
+    insert into COLLECTURL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cuid != null" >
+        CUID,
+      </if>
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="urls != null" >
+        URLS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cuid != null" >
+        #{cuid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="urls != null" >
+        #{urls,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Collecturl" >
+    update COLLECTURL
+    <set >
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="urls != null" >
+        URLS = #{urls,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CUID = #{cuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Collecturl" >
+    update COLLECTURL
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      URLS = #{urls,jdbcType=VARCHAR}
+    where CUID = #{cuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

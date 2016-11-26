@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.LiferecordMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Liferecord" >
+    <id column="LFID" property="lfid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="LTITLE" property="ltitle" jdbcType="VARCHAR" />
+    <result column="LTYPE" property="ltype" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LFID, FUID, LTITLE, LTYPE
+  </sql>
+  <select id="selectByfuid" resultMap="BaseResultMap" parameterType="java.lang.String">
+   select 
+    <include refid="Base_Column_List" />
+    from LIFERECORD
+    where FUID =#{_parameter,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LIFERECORD
+    where LFID = #{lfid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LIFERECORD
+    where LFID = #{lfid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Liferecord" >
+   <selectKey resultType="String" order="AFTER" keyProperty="id">
+	   SELECT s_record.currval as LFID from DUAL
+   </selectKey>
+    insert into LIFERECORD ( FUID, LTITLE, 
+      LTYPE)
+    values ( #{fuid,jdbcType=VARCHAR}, #{ltitle,jdbcType=VARCHAR}, 
+      #{ltype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Liferecord" >
+ <selectKey resultType="String" order="AFTER" keyProperty="id">
+	   SELECT s_record.currval as LFID from DUAL
+   </selectKey>
+    insert into LIFERECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="ltitle != null" >
+        LTITLE,
+      </if>
+      <if test="ltype != null" >
+        LTYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ltitle != null" >
+        #{ltitle,jdbcType=VARCHAR},
+      </if>
+      <if test="ltype != null" >
+        #{ltype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Liferecord" >
+    update LIFERECORD
+    <set >
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ltitle != null" >
+        LTITLE = #{ltitle,jdbcType=VARCHAR},
+      </if>
+      <if test="ltype != null" >
+        LTYPE = #{ltype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LFID = #{lfid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Liferecord" >
+    update LIFERECORD
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      LTITLE = #{ltitle,jdbcType=VARCHAR},
+      LTYPE = #{ltype,jdbcType=VARCHAR}
+    where LFID = #{lfid,jdbcType=VARCHAR}
+  </update>
+</mapper>

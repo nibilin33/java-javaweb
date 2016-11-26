@@ -1,0 +1,93 @@
+@CHARSET "UTF-8";
+.fb_loghead{
+    margin:0 auto;
+    width: 980px;
+    padding-top: 30px;
+}
+.fb_left{
+    float: left;
+    color:aliceblue;
+    font-size: 21px;
+  margin-bottom: -20px;
+}
+#talkbubble {
+    width: 120px;
+    height: 80px;
+    background: #88a1d4;
+    position: absolute;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+#talkbubble:after{
+     content: attr(title);
+      position: relative;
+    top:10px;
+    left:2px;
+    color: red;
+}
+#talkbubble:before {
+    content: "";
+    position: absolute;
+    right: 100%;
+    top: 26px;
+    width: 0;
+    height: 0;
+    border-top: 13px solid transparent;
+    border-right: 26px solid #88a1d4;
+    border-bottom: 13px solid transparent;
+}
+.fb_headcontainer{
+ height: 89px;
+ min-width: 980px;
+background-color: #5170ad;
+}
+.whiteboxs{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    width: 555px;
+    margin: 0 auto;
+}
+
+a{
+    color: #365899;
+    cursor: pointer;
+    text-decoration: none;
+}
+._identyfy{
+   margin-left: auto;
+    margin-right: auto;
+    width: 330px;
+}
+h1{
+    margin: 0;
+}
+.fb_left u{
+     color:aliceblue;
+    font-size: 45px;
+    text-decoration: none;
+}
+.fb_logright{
+  float:right;
+}
+.fb_logmain{
+    margin-top: -10px;
+}
+._5b{
+    font-size: 14px;
+    height: 30px;
+    padding: 5px; 
+
+}
+._5c{
+    margin-top:20px;
+    margin-right:193px;
+}
+._5mt{
+    color: #1d2129;
+    font-size: 19px;
+    font-weight: normal;
+    line-height: 18px;
+    padding: 0 10px 0 3px;
+}
+/* facebook.html css*/

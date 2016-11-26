@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.ActivityMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Activity" >
+    <id column="ACID" property="acid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="CREATEITME" property="createitme" jdbcType="DATE" />
+    <result column="ENDTIME" property="endtime" jdbcType="DATE" />
+    <result column="MAINIDEA" property="mainidea" jdbcType="VARCHAR" />
+    <result column="ACIMAGE" property="acimage" jdbcType="VARCHAR" />
+    <result column="ACDISCRIBE" property="acdiscribe" jdbcType="VARCHAR" />
+    <result column="PUORPER" property="puorper" jdbcType="DECIMAL" />
+    <result column="CMGUEST" property="cmguest" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ACID, FUID, CREATEITME, ENDTIME, MAINIDEA, ACIMAGE, ACDISCRIBE, PUORPER, CMGUEST
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ACTIVITY
+    where ACID = #{acid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ACTIVITY
+    where ACID = #{acid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Activity" >
+    insert into ACTIVITY (ACID, FUID, CREATEITME, 
+      ENDTIME, MAINIDEA, ACIMAGE, 
+      ACDISCRIBE, PUORPER, CMGUEST
+      )
+    values (#{acid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{createitme,jdbcType=DATE}, 
+      #{endtime,jdbcType=DATE}, #{mainidea,jdbcType=VARCHAR}, #{acimage,jdbcType=VARCHAR}, 
+      #{acdiscribe,jdbcType=VARCHAR}, #{puorper,jdbcType=DECIMAL}, #{cmguest,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Activity" >
+    insert into ACTIVITY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="acid != null" >
+        ACID,
+      </if>
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="createitme != null" >
+        CREATEITME,
+      </if>
+      <if test="endtime != null" >
+        ENDTIME,
+      </if>
+      <if test="mainidea != null" >
+        MAINIDEA,
+      </if>
+      <if test="acimage != null" >
+        ACIMAGE,
+      </if>
+      <if test="acdiscribe != null" >
+        ACDISCRIBE,
+      </if>
+      <if test="puorper != null" >
+        PUORPER,
+      </if>
+      <if test="cmguest != null" >
+        CMGUEST,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="acid != null" >
+        #{acid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="createitme != null" >
+        #{createitme,jdbcType=DATE},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=DATE},
+      </if>
+      <if test="mainidea != null" >
+        #{mainidea,jdbcType=VARCHAR},
+      </if>
+      <if test="acimage != null" >
+        #{acimage,jdbcType=VARCHAR},
+      </if>
+      <if test="acdiscribe != null" >
+        #{acdiscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="puorper != null" >
+        #{puorper,jdbcType=DECIMAL},
+      </if>
+      <if test="cmguest != null" >
+        #{cmguest,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Activity" >
+    update ACTIVITY
+    <set >
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="createitme != null" >
+        CREATEITME = #{createitme,jdbcType=DATE},
+      </if>
+      <if test="endtime != null" >
+        ENDTIME = #{endtime,jdbcType=DATE},
+      </if>
+      <if test="mainidea != null" >
+        MAINIDEA = #{mainidea,jdbcType=VARCHAR},
+      </if>
+      <if test="acimage != null" >
+        ACIMAGE = #{acimage,jdbcType=VARCHAR},
+      </if>
+      <if test="acdiscribe != null" >
+        ACDISCRIBE = #{acdiscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="puorper != null" >
+        PUORPER = #{puorper,jdbcType=DECIMAL},
+      </if>
+      <if test="cmguest != null" >
+        CMGUEST = #{cmguest,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ACID = #{acid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Activity" >
+    update ACTIVITY
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      CREATEITME = #{createitme,jdbcType=DATE},
+      ENDTIME = #{endtime,jdbcType=DATE},
+      MAINIDEA = #{mainidea,jdbcType=VARCHAR},
+      ACIMAGE = #{acimage,jdbcType=VARCHAR},
+      ACDISCRIBE = #{acdiscribe,jdbcType=VARCHAR},
+      PUORPER = #{puorper,jdbcType=DECIMAL},
+      CMGUEST = #{cmguest,jdbcType=VARCHAR}
+    where ACID = #{acid,jdbcType=VARCHAR}
+  </update>
+</mapper>

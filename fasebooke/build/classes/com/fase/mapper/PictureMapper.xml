@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.PictureMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Picture" >
+    <id column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="GPID" property="gpid" jdbcType="VARCHAR" />
+    <result column="PICNAME" property="picname" jdbcType="VARCHAR" />
+    <result column="PTIME" property="ptime" jdbcType="DATE" />
+    <result column="PICDESCRIBE" property="picdescribe" jdbcType="VARCHAR" />
+    <result column="PUSETYPE" property="pusetype" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PID, GPID, PICNAME, PTIME, PICDESCRIBE, PUSETYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from PICTURE
+    where PID = #{pid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from PICTURE
+    where PID = #{pid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Picture" >
+    insert into PICTURE (PID, GPID, PICNAME, 
+      PTIME, PICDESCRIBE, PUSETYPE
+      )
+    values (#{pid,jdbcType=VARCHAR}, #{gpid,jdbcType=VARCHAR}, #{picname,jdbcType=VARCHAR}, 
+      #{ptime,jdbcType=DATE}, #{picdescribe,jdbcType=VARCHAR}, #{pusetype,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Picture" >
+  <selectKey resultType="String" order="AFTER" keyProperty="id">
+	   SELECT s_picture.currval as PID from DUAL
+   </selectKey>
+    insert into PICTURE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gpid != null" >
+        GPID,
+      </if>
+      <if test="picname != null" >
+        PICNAME,
+      </if>
+      <if test="ptime != null" >
+        PTIME,
+      </if>
+      <if test="picdescribe != null" >
+        PICDESCRIBE,
+      </if>
+      <if test="pusetype != null" >
+        PUSETYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gpid != null" >
+        #{gpid,jdbcType=VARCHAR},
+      </if>
+      <if test="picname != null" >
+        #{picname,jdbcType=VARCHAR},
+      </if>
+      <if test="ptime != null" >
+        #{ptime,jdbcType=DATE},
+      </if>
+      <if test="picdescribe != null" >
+        #{picdescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="pusetype != null" >
+        #{pusetype,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Picture" >
+    update PICTURE
+    <set >
+      <if test="gpid != null" >
+        GPID = #{gpid,jdbcType=VARCHAR},
+      </if>
+      <if test="picname != null" >
+        PICNAME = #{picname,jdbcType=VARCHAR},
+      </if>
+      <if test="ptime != null" >
+        PTIME = #{ptime,jdbcType=DATE},
+      </if>
+      <if test="picdescribe != null" >
+        PICDESCRIBE = #{picdescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="pusetype != null" >
+        PUSETYPE = #{pusetype,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where PID = #{pid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Picture" >
+    update PICTURE
+    set GPID = #{gpid,jdbcType=VARCHAR},
+      PICNAME = #{picname,jdbcType=VARCHAR},
+      PTIME = #{ptime,jdbcType=DATE},
+      PICDESCRIBE = #{picdescribe,jdbcType=VARCHAR},
+      PUSETYPE = #{pusetype,jdbcType=DECIMAL}
+    where PID = #{pid,jdbcType=VARCHAR}
+  </update>
+</mapper>

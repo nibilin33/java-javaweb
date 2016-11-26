@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.MpagedataMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Mpagedata" >
+    <id column="DATAID" property="dataid" jdbcType="VARCHAR" />
+    <result column="MPID" property="mpid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="MVITIME" property="mvitime" jdbcType="DATE" />
+    <result column="ISZAN" property="iszan" jdbcType="DECIMAL" />
+    <result column="ISCOLLECT" property="iscollect" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DATAID, MPID, FUID, MVITIME, ISZAN, ISCOLLECT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from MPAGEDATA
+    where DATAID = #{dataid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from MPAGEDATA
+    where DATAID = #{dataid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Mpagedata" >
+    insert into MPAGEDATA (DATAID, MPID, FUID, 
+      MVITIME, ISZAN, ISCOLLECT
+      )
+    values (#{dataid,jdbcType=VARCHAR}, #{mpid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, 
+      #{mvitime,jdbcType=DATE}, #{iszan,jdbcType=DECIMAL}, #{iscollect,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Mpagedata" >
+    insert into MPAGEDATA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataid != null" >
+        DATAID,
+      </if>
+      <if test="mpid != null" >
+        MPID,
+      </if>
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="mvitime != null" >
+        MVITIME,
+      </if>
+      <if test="iszan != null" >
+        ISZAN,
+      </if>
+      <if test="iscollect != null" >
+        ISCOLLECT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataid != null" >
+        #{dataid,jdbcType=VARCHAR},
+      </if>
+      <if test="mpid != null" >
+        #{mpid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="mvitime != null" >
+        #{mvitime,jdbcType=DATE},
+      </if>
+      <if test="iszan != null" >
+        #{iszan,jdbcType=DECIMAL},
+      </if>
+      <if test="iscollect != null" >
+        #{iscollect,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Mpagedata" >
+    update MPAGEDATA
+    <set >
+      <if test="mpid != null" >
+        MPID = #{mpid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="mvitime != null" >
+        MVITIME = #{mvitime,jdbcType=DATE},
+      </if>
+      <if test="iszan != null" >
+        ISZAN = #{iszan,jdbcType=DECIMAL},
+      </if>
+      <if test="iscollect != null" >
+        ISCOLLECT = #{iscollect,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where DATAID = #{dataid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Mpagedata" >
+    update MPAGEDATA
+    set MPID = #{mpid,jdbcType=VARCHAR},
+      FUID = #{fuid,jdbcType=VARCHAR},
+      MVITIME = #{mvitime,jdbcType=DATE},
+      ISZAN = #{iszan,jdbcType=DECIMAL},
+      ISCOLLECT = #{iscollect,jdbcType=DECIMAL}
+    where DATAID = #{dataid,jdbcType=VARCHAR}
+  </update>
+</mapper>

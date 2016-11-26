@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.EmailmessageMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Emailmessage" >
+    <id column="EID" property="eid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="FFID" property="ffid" jdbcType="VARCHAR" />
+    <result column="SENTTIME" property="senttime" jdbcType="DATE" />
+    <result column="CONTENTI" property="contenti" jdbcType="VARCHAR" />
+    <result column="PLUSFILE" property="plusfile" jdbcType="VARCHAR" />
+    <result column="ESTATE" property="estate" jdbcType="DECIMAL" />
+    <association property="user" javaType="com.fase.po.Fuser">
+    <id column="FUID" jdbcType="VARCHAR" property="fuid" />
+    <result column="FNAME" jdbcType="VARCHAR" property="fname" />
+    <result column="FCOUNT" jdbcType="VARCHAR" property="fcount" />
+    <result column="FSEX" jdbcType="DECIMAL" property="fsex" />
+    <result column="FBIRTHDAY" jdbcType="DATE" property="fbirthday" />
+    <result column="FTEL" jdbcType="VARCHAR" property="ftel" />
+    <result column="FEMAIL" jdbcType="VARCHAR" property="femail" />
+    <result column="FPASSWORD" jdbcType="VARCHAR" property="fpassword" />
+    <result column="FLIVEPLACE" jdbcType="VARCHAR" property="fliveplace" />
+    <result column="FHEADIMAGE" jdbcType="VARCHAR" property="fheadimage" />
+    <result column="FBACKIMAGE" jdbcType="VARCHAR" property="fbackimage" />
+    <result column="FHTTP" jdbcType="VARCHAR" property="fhttp" />
+    <result column="FSOCIALLINK" jdbcType="VARCHAR" property="fsociallink" />
+    <result column="FSEXLIKE" jdbcType="DECIMAL" property="fsexlike" />
+    <result column="FBLODTYPE" jdbcType="VARCHAR" property="fblodtype" />
+    <result column="FEMOTION" jdbcType="VARCHAR" property="femotion" />
+    <result column="FPERSONAL" jdbcType="VARCHAR" property="fpersonal" />
+    <result column="FLIKEWORD" jdbcType="VARCHAR" property="flikeword" />
+    <result column="FSTATE" jdbcType="DECIMAL" property="fstate" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    EID, FUID, FFID, SENTTIME, CONTENTI, PLUSFILE, ESTATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select t.*,f.* from EMAILMESSAGE t,FUSER f
+    where t.FUID=f.FUID and t.EID = #{eid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByffid" resultMap="BaseResultMap" parameterType="java.lang.String">
+   select t.*,f.* from EMAILMESSAGE t,FUSER f
+    where t.FUID=f.FUID and t.FFID = #{_parameter,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from EMAILMESSAGE
+    where EID = #{eid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Emailmessage" >
+    insert into EMAILMESSAGE (EID, FUID, FFID, 
+      SENTTIME, CONTENTI, PLUSFILE, 
+      ESTATE)
+    values (#{eid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{ffid,jdbcType=VARCHAR}, 
+      #{senttime,jdbcType=DATE}, #{contenti,jdbcType=VARCHAR}, #{plusfile,jdbcType=VARCHAR}, 
+      #{estate,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Emailmessage" >
+    insert into EMAILMESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="ffid != null" >
+        FFID,
+      </if>
+      <if test="senttime != null" >
+        SENTTIME,
+      </if>
+      <if test="contenti != null" >
+        CONTENTI,
+      </if>
+      <if test="plusfile != null" >
+        PLUSFILE,
+      </if>
+      <if test="estate != null" >
+        ESTATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ffid != null" >
+        #{ffid,jdbcType=VARCHAR},
+      </if>
+      <if test="senttime != null" >
+        #{senttime,jdbcType=DATE},
+      </if>
+      <if test="contenti != null" >
+        #{contenti,jdbcType=VARCHAR},
+      </if>
+      <if test="plusfile != null" >
+        #{plusfile,jdbcType=VARCHAR},
+      </if>
+      <if test="estate != null" >
+        #{estate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Emailmessage" >
+    update EMAILMESSAGE
+    <set >
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ffid != null" >
+        FFID = #{ffid,jdbcType=VARCHAR},
+      </if>
+      <if test="senttime != null" >
+        SENTTIME = #{senttime,jdbcType=DATE},
+      </if>
+      <if test="contenti != null" >
+        CONTENTI = #{contenti,jdbcType=VARCHAR},
+      </if>
+      <if test="plusfile != null" >
+        PLUSFILE = #{plusfile,jdbcType=VARCHAR},
+      </if>
+      <if test="estate != null" >
+        ESTATE = #{estate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where EID = #{eid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="map">
+    update EMAILMESSAGE
+   <set>  ESTATE =#{estate,jdbcType=DECIMAL}</set>
+   where EID = #{eid,jdbcType=VARCHAR}
+  </update>
+</mapper>

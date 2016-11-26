@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.MpageMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Mpage" >
+    <id column="MPID" property="mpid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="MTYPE" property="mtype" jdbcType="VARCHAR" />
+    <result column="MNAME" property="mname" jdbcType="VARCHAR" />
+    <result column="MDESCRIBE" property="mdescribe" jdbcType="VARCHAR" />
+    <result column="MWEBSITE" property="mwebsite" jdbcType="VARCHAR" />
+    <result column="MPICTURE" property="mpicture" jdbcType="VARCHAR" />
+    <result column="MTARGET" property="mtarget" jdbcType="VARCHAR" />
+    <result column="MCOVER" property="mcover" jdbcType="VARCHAR" />
+    <result column="MVISITSUM" property="mvisitsum" jdbcType="DECIMAL" />
+    <result column="MZANSUM" property="mzansum" jdbcType="DECIMAL" />
+    <result column="MCOLLECT" property="mcollect" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MPID, FUID, MTYPE, MNAME, MDESCRIBE, MWEBSITE, MPICTURE, MTARGET, MCOVER, MVISITSUM, 
+    MZANSUM, MCOLLECT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from MPAGE
+    where MPID = #{mpid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from MPAGE
+    where MPID = #{mpid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Mpage" >
+    insert into MPAGE (MPID, FUID, MTYPE, 
+      MNAME, MDESCRIBE, MWEBSITE, 
+      MPICTURE, MTARGET, MCOVER, 
+      MVISITSUM, MZANSUM, MCOLLECT
+      )
+    values (#{mpid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{mtype,jdbcType=VARCHAR}, 
+      #{mname,jdbcType=VARCHAR}, #{mdescribe,jdbcType=VARCHAR}, #{mwebsite,jdbcType=VARCHAR}, 
+      #{mpicture,jdbcType=VARCHAR}, #{mtarget,jdbcType=VARCHAR}, #{mcover,jdbcType=VARCHAR}, 
+      #{mvisitsum,jdbcType=DECIMAL}, #{mzansum,jdbcType=DECIMAL}, #{mcollect,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Mpage" >
+    insert into MPAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mpid != null" >
+        MPID,
+      </if>
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="mtype != null" >
+        MTYPE,
+      </if>
+      <if test="mname != null" >
+        MNAME,
+      </if>
+      <if test="mdescribe != null" >
+        MDESCRIBE,
+      </if>
+      <if test="mwebsite != null" >
+        MWEBSITE,
+      </if>
+      <if test="mpicture != null" >
+        MPICTURE,
+      </if>
+      <if test="mtarget != null" >
+        MTARGET,
+      </if>
+      <if test="mcover != null" >
+        MCOVER,
+      </if>
+      <if test="mvisitsum != null" >
+        MVISITSUM,
+      </if>
+      <if test="mzansum != null" >
+        MZANSUM,
+      </if>
+      <if test="mcollect != null" >
+        MCOLLECT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mpid != null" >
+        #{mpid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="mtype != null" >
+        #{mtype,jdbcType=VARCHAR},
+      </if>
+      <if test="mname != null" >
+        #{mname,jdbcType=VARCHAR},
+      </if>
+      <if test="mdescribe != null" >
+        #{mdescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="mwebsite != null" >
+        #{mwebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="mpicture != null" >
+        #{mpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="mtarget != null" >
+        #{mtarget,jdbcType=VARCHAR},
+      </if>
+      <if test="mcover != null" >
+        #{mcover,jdbcType=VARCHAR},
+      </if>
+      <if test="mvisitsum != null" >
+        #{mvisitsum,jdbcType=DECIMAL},
+      </if>
+      <if test="mzansum != null" >
+        #{mzansum,jdbcType=DECIMAL},
+      </if>
+      <if test="mcollect != null" >
+        #{mcollect,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Mpage" >
+    update MPAGE
+    <set >
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="mtype != null" >
+        MTYPE = #{mtype,jdbcType=VARCHAR},
+      </if>
+      <if test="mname != null" >
+        MNAME = #{mname,jdbcType=VARCHAR},
+      </if>
+      <if test="mdescribe != null" >
+        MDESCRIBE = #{mdescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="mwebsite != null" >
+        MWEBSITE = #{mwebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="mpicture != null" >
+        MPICTURE = #{mpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="mtarget != null" >
+        MTARGET = #{mtarget,jdbcType=VARCHAR},
+      </if>
+      <if test="mcover != null" >
+        MCOVER = #{mcover,jdbcType=VARCHAR},
+      </if>
+      <if test="mvisitsum != null" >
+        MVISITSUM = #{mvisitsum,jdbcType=DECIMAL},
+      </if>
+      <if test="mzansum != null" >
+        MZANSUM = #{mzansum,jdbcType=DECIMAL},
+      </if>
+      <if test="mcollect != null" >
+        MCOLLECT = #{mcollect,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where MPID = #{mpid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Mpage" >
+    update MPAGE
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      MTYPE = #{mtype,jdbcType=VARCHAR},
+      MNAME = #{mname,jdbcType=VARCHAR},
+      MDESCRIBE = #{mdescribe,jdbcType=VARCHAR},
+      MWEBSITE = #{mwebsite,jdbcType=VARCHAR},
+      MPICTURE = #{mpicture,jdbcType=VARCHAR},
+      MTARGET = #{mtarget,jdbcType=VARCHAR},
+      MCOVER = #{mcover,jdbcType=VARCHAR},
+      MVISITSUM = #{mvisitsum,jdbcType=DECIMAL},
+      MZANSUM = #{mzansum,jdbcType=DECIMAL},
+      MCOLLECT = #{mcollect,jdbcType=DECIMAL}
+    where MPID = #{mpid,jdbcType=VARCHAR}
+  </update>
+</mapper>

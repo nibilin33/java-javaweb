@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.SensitiveMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Sensitive" >
+    <id column="SEID" property="seid" jdbcType="VARCHAR" />
+    <result column="SWORDS" property="swords" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SEID, SWORDS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SENSITIVE
+    where SEID = #{seid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SENSITIVE
+    where SEID = #{seid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Sensitive" >
+    insert into SENSITIVE (SEID, SWORDS)
+    values (#{seid,jdbcType=VARCHAR}, #{swords,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Sensitive" >
+    insert into SENSITIVE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="seid != null" >
+        SEID,
+      </if>
+      <if test="swords != null" >
+        SWORDS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="seid != null" >
+        #{seid,jdbcType=VARCHAR},
+      </if>
+      <if test="swords != null" >
+        #{swords,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Sensitive" >
+    update SENSITIVE
+    <set >
+      <if test="swords != null" >
+        SWORDS = #{swords,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SEID = #{seid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Sensitive" >
+    update SENSITIVE
+    set SWORDS = #{swords,jdbcType=VARCHAR}
+    where SEID = #{seid,jdbcType=VARCHAR}
+  </update>
+</mapper>

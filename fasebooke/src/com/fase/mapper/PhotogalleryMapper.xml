@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.PhotogalleryMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Photogallery" >
+    <id column="GPID" property="gpid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="GICNAME" property="gicname" jdbcType="VARCHAR" />
+    <result column="GTIME" property="gtime" jdbcType="DATE" />
+    <result column="GICDESCRIBE" property="gicdescribe" jdbcType="VARCHAR" />
+    <result column="GACESSTYPE" property="gacesstype" jdbcType="DECIMAL" />
+    <collection property="pictures" ofType="com.fase.po.Picture" >
+    <id column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="GPID" property="gpid" jdbcType="VARCHAR" />
+    <result column="PICNAME" property="picname" jdbcType="VARCHAR" />
+    <result column="PTIME" property="ptime" jdbcType="DATE" />
+    <result column="PICDESCRIBE" property="picdescribe" jdbcType="VARCHAR" />
+    <result column="PUSETYPE" property="pusetype" jdbcType="DECIMAL" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    GPID, FUID, GICNAME, GTIME, GICDESCRIBE, GACESSTYPE
+  </sql>
+    <select id="insertP" statementType="CALLABLE" parameterType="java.util.Map" >
+     <![CDATA[
+     call Insertinto(#{fuid,mode=IN,jdbcType=VARCHAR},#{offset,mode=IN,jdbcType=DECIMAL},#{result,jdbcType=INTEGER,mode=OUT,javaType=int})
+     ]]> 
+
+    </select>
+   <select id="selectbygname" parameterType="java.lang.String" resultMap="BaseResultMap">
+   select * from PHOTOGALLERY where GICNAME=#{_parameter,jdbcType=VARCHAR}
+   </select>
+    <select id="selectall" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select p.*,c.*
+    from PHOTOGALLERY p,PICTURE c
+    where p.GPID =c.GPID or p.FUID=#{_parameter,jdbcType=VARCHAR}
+    </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select p.*,c.*
+    from PHOTOGALLERY p,PICTURE c
+    where p.GPID =c.GPID and  p.GPID=#{_parameter,jdbcType=VARCHAR} 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from PHOTOGALLERY
+    where GPID = #{gpid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertT" parameterType="com.fase.po.Photogallery" >
+      <selectKey resultType="String" order="AFTER" keyProperty="id">
+	   SELECT s_photogallery.currval as GPID from DUAL
+   </selectKey>
+    insert into PHOTOGALLERY (FUID, GICNAME, 
+      GTIME, GICDESCRIBE, GACESSTYPE
+      )
+    values (#{fuid,jdbcType=VARCHAR}, #{gicname,jdbcType=VARCHAR}, 
+      #{gtime,jdbcType=DATE}, #{gicdescribe,jdbcType=VARCHAR}, #{gacesstype,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Photogallery" >
+    insert into PHOTOGALLERY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gpid != null" >
+        GPID,
+      </if>
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="gicname != null" >
+        GICNAME,
+      </if>
+      <if test="gtime != null" >
+        GTIME,
+      </if>
+      <if test="gicdescribe != null" >
+        GICDESCRIBE,
+      </if>
+      <if test="gacesstype != null" >
+        GACESSTYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gpid != null" >
+        #{gpid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="gicname != null" >
+        #{gicname,jdbcType=VARCHAR},
+      </if>
+      <if test="gtime != null" >
+        #{gtime,jdbcType=DATE},
+      </if>
+      <if test="gicdescribe != null" >
+        #{gicdescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="gacesstype != null" >
+        #{gacesstype,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Photogallery" >
+    update PHOTOGALLERY
+    <set >
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="gicname != null" >
+        GICNAME = #{gicname,jdbcType=VARCHAR},
+      </if>
+      <if test="gtime != null" >
+        GTIME = #{gtime,jdbcType=DATE},
+      </if>
+      <if test="gicdescribe != null" >
+        GICDESCRIBE = #{gicdescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="gacesstype != null" >
+        GACESSTYPE = #{gacesstype,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where GPID = #{gpid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Photogallery" >
+    update PHOTOGALLERY
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      GICNAME = #{gicname,jdbcType=VARCHAR},
+      GTIME = #{gtime,jdbcType=DATE},
+      GICDESCRIBE = #{gicdescribe,jdbcType=VARCHAR},
+      GACESSTYPE = #{gacesstype,jdbcType=DECIMAL}
+    where GPID = #{gpid,jdbcType=VARCHAR}
+  </update>
+</mapper>

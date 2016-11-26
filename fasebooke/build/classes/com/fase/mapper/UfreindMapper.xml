@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fase.mapper.UfreindMapper">
+  <resultMap id="BaseResultMap" type="com.fase.po.Ufreind">
+    <id column="UFID" jdbcType="VARCHAR" property="ufid" />
+    <result column="FUID" jdbcType="VARCHAR" property="fuid" />
+    <result column="FFID" jdbcType="VARCHAR" property="ffid" />
+    <result column="FFTYPE" jdbcType="DECIMAL" property="fftype" />
+    <result column="ISNOTICE" jdbcType="DECIMAL" property="isnotice" />
+    <collection property="flist" ofType="com.fase.po.Fuser">
+     <id column="FUID" jdbcType="VARCHAR" property="fuid" />
+    <result column="FNAME" jdbcType="VARCHAR" property="fname" />
+    <result column="FCOUNT" jdbcType="VARCHAR" property="fcount" />
+    <result column="FSEX" jdbcType="DECIMAL" property="fsex" />
+    <result column="FBIRTHDAY" jdbcType="DATE" property="fbirthday" />
+    <result column="FTEL" jdbcType="VARCHAR" property="ftel" />
+    <result column="FEMAIL" jdbcType="VARCHAR" property="femail" />
+    <result column="FPASSWORD" jdbcType="VARCHAR" property="fpassword" />
+    <result column="FLIVEPLACE" jdbcType="VARCHAR" property="fliveplace" />
+    <result column="FHEADIMAGE" jdbcType="VARCHAR" property="fheadimage" />
+    <result column="FBACKIMAGE" jdbcType="VARCHAR" property="fbackimage" />
+    <result column="FHTTP" jdbcType="VARCHAR" property="fhttp" />
+    <result column="FSOCIALLINK" jdbcType="VARCHAR" property="fsociallink" />
+    <result column="FSEXLIKE" jdbcType="DECIMAL" property="fsexlike" />
+    <result column="FBLODTYPE" jdbcType="VARCHAR" property="fblodtype" />
+    <result column="FEMOTION" jdbcType="VARCHAR" property="femotion" />
+    <result column="FPERSONAL" jdbcType="VARCHAR" property="fpersonal" />
+    <result column="FLIKEWORD" jdbcType="VARCHAR" property="flikeword" />
+    <result column="FSTATE" jdbcType="DECIMAL" property="fstate" />
+       <result  column="FHOMETOWN" jdbcType="VARCHAR" property="fhometown"/>
+   </collection>
+  </resultMap>
+ 
+  <sql id="Base_Column_List">
+    UFID, FUID, FFID, FFTYPE, ISNOTICE
+  </sql>
+  <select id="selectallfriend" parameterType="java.lang.String" resultMap="BaseResultMap">
+   select s.*,t.*
+    from UFREIND t,FUSER s
+    where t.FFID=s.FUID and t.FUID=#{_parameter,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from UFREIND
+    where UFID = #{ufid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from UFREIND
+    where UFID = #{ufid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Ufreind">
+    insert into UFREIND (UFID, FUID, FFID, 
+      FFTYPE, ISNOTICE)
+    values (#{ufid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{ffid,jdbcType=VARCHAR}, 
+      #{fftype,jdbcType=DECIMAL}, #{isnotice,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Ufreind">
+    insert into UFREIND
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ufid != null">
+        UFID,
+      </if>
+      <if test="fuid != null">
+        FUID,
+      </if>
+      <if test="ffid != null">
+        FFID,
+      </if>
+      <if test="fftype != null">
+        FFTYPE,
+      </if>
+      <if test="isnotice != null">
+        ISNOTICE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ufid != null">
+        #{ufid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuid != null">
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ffid != null">
+        #{ffid,jdbcType=VARCHAR},
+      </if>
+      <if test="fftype != null">
+        #{fftype,jdbcType=DECIMAL},
+      </if>
+      <if test="isnotice != null">
+        #{isnotice,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Ufreind">
+    update UFREIND
+    <set>
+      <if test="fuid != null">
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ffid != null">
+        FFID = #{ffid,jdbcType=VARCHAR},
+      </if>
+      <if test="fftype != null">
+        FFTYPE = #{fftype,jdbcType=DECIMAL},
+      </if>
+      <if test="isnotice != null">
+        ISNOTICE = #{isnotice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where UFID = #{ufid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Ufreind">
+    update UFREIND
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      FFID = #{ffid,jdbcType=VARCHAR},
+      FFTYPE = #{fftype,jdbcType=DECIMAL},
+      ISNOTICE = #{isnotice,jdbcType=DECIMAL}
+    where UFID = #{ufid,jdbcType=VARCHAR}
+  </update>
+ 
+</mapper>

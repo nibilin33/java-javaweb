@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.UEducationMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.UEducation" >
+    <id column="UEDID" property="uedid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="USCHOOL" property="uschool" jdbcType="VARCHAR" />
+    <result column="UTIME" property="utime" jdbcType="VARCHAR" />
+    <result column="UBSTATE" property="ubstate" jdbcType="DECIMAL" />
+    <result column="UDESCRIPTION" property="udescription" jdbcType="VARCHAR" />
+    <result column="UPRO" property="upro" jdbcType="VARCHAR" />
+   <association property="user" javaType="com.fase.po.Fuser">
+    <id column="FUID" jdbcType="VARCHAR" property="fuid" />
+    <result column="FNAME" jdbcType="VARCHAR" property="fname" />
+    <result column="FCOUNT" jdbcType="VARCHAR" property="fcount" />
+    <result column="FSEX" jdbcType="DECIMAL" property="fsex" />
+    <result column="FBIRTHDAY" jdbcType="DATE" property="fbirthday" />
+    <result column="FTEL" jdbcType="VARCHAR" property="ftel" />
+    <result column="FEMAIL" jdbcType="VARCHAR" property="femail" />
+    <result column="FPASSWORD" jdbcType="VARCHAR" property="fpassword" />
+    <result column="FLIVEPLACE" jdbcType="VARCHAR" property="fliveplace" />
+    <result column="FHEADIMAGE" jdbcType="VARCHAR" property="fheadimage" />
+    <result column="FBACKIMAGE" jdbcType="VARCHAR" property="fbackimage" />
+    <result column="FHTTP" jdbcType="VARCHAR" property="fhttp" />
+    <result column="FSOCIALLINK" jdbcType="VARCHAR" property="fsociallink" />
+    <result column="FSEXLIKE" jdbcType="DECIMAL" property="fsexlike" />
+    <result column="FBLODTYPE" jdbcType="VARCHAR" property="fblodtype" />
+    <result column="FEMOTION" jdbcType="VARCHAR" property="femotion" />
+    <result column="FPERSONAL" jdbcType="VARCHAR" property="fpersonal" />
+    <result column="FLIKEWORD" jdbcType="VARCHAR" property="flikeword" />
+    <result column="FSTATE" jdbcType="DECIMAL" property="fstate" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UEDID, FUID, USCHOOL, UTIME, UBSTATE, UDESCRIPTION, UPRO
+  </sql>
+   <select id="selectbyfuid" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select f.*,w.* from FUSER f,U_EDUCATION w where f.FUID=w.FUID and w.FUID=#{_parameter,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from U_EDUCATION
+    where UEDID = #{uedid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from U_EDUCATION
+    where UEDID = #{uedid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.UEducation" >
+    insert into U_EDUCATION (UEDID, FUID, USCHOOL, 
+      UTIME, UBSTATE, UDESCRIPTION, 
+      UPRO)
+    values (#{uedid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{uschool,jdbcType=VARCHAR}, 
+      #{utime,jdbcType=VARCHAR}, #{ubstate,jdbcType=DECIMAL}, #{udescription,jdbcType=VARCHAR}, 
+      #{upro,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.UEducation" >
+  <selectKey resultType="String" order="AFTER" keyProperty="id">
+    SELECT s_education.currval as UEDID from DUAL
+  </selectKey>
+    insert into U_EDUCATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="uschool != null" >
+        USCHOOL,
+      </if>
+      <if test="utime != null" >
+        UTIME,
+      </if>
+      <if test="ubstate != null" >
+        UBSTATE,
+      </if>
+      <if test="udescription != null" >
+        UDESCRIPTION,
+      </if>
+      <if test="upro != null" >
+        UPRO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="uschool != null" >
+        #{uschool,jdbcType=VARCHAR},
+      </if>
+      <if test="utime != null" >
+        #{utime,jdbcType=VARCHAR},
+      </if>
+      <if test="ubstate != null" >
+        #{ubstate,jdbcType=DECIMAL},
+      </if>
+      <if test="udescription != null" >
+        #{udescription,jdbcType=VARCHAR},
+      </if>
+      <if test="upro != null" >
+        #{upro,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.UEducation" >
+    update U_EDUCATION
+    <set >
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="uschool != null" >
+        USCHOOL = #{uschool,jdbcType=VARCHAR},
+      </if>
+      <if test="utime != null" >
+        UTIME = #{utime,jdbcType=VARCHAR},
+      </if>
+      <if test="ubstate != null" >
+        UBSTATE = #{ubstate,jdbcType=DECIMAL},
+      </if>
+      <if test="udescription != null" >
+        UDESCRIPTION = #{udescription,jdbcType=VARCHAR},
+      </if>
+      <if test="upro != null" >
+        UPRO = #{upro,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UEDID = #{uedid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.UEducation" >
+    update U_EDUCATION
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      USCHOOL = #{uschool,jdbcType=VARCHAR},
+      UTIME = #{utime,jdbcType=VARCHAR},
+      UBSTATE = #{ubstate,jdbcType=DECIMAL},
+      UDESCRIPTION = #{udescription,jdbcType=VARCHAR},
+      UPRO = #{upro,jdbcType=VARCHAR}
+    where UEDID = #{uedid,jdbcType=VARCHAR}
+  </update>
+</mapper>

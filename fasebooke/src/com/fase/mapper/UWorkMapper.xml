@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.UWorkMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.UWork" >
+    <id column="UWORKID" property="uworkid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="UCOMPANYNAME" property="ucompanyname" jdbcType="VARCHAR" />
+    <result column="UZHIWEI" property="uzhiwei" jdbcType="VARCHAR" />
+    <result column="ULOCATION" property="ulocation" jdbcType="VARCHAR" />
+    <result column="UDESCRIPTION" property="udescription" jdbcType="VARCHAR" />
+    <result column="USEGTIME" property="usegtime" jdbcType="VARCHAR" />
+    <result column="USKILL" property="uskill" jdbcType="VARCHAR" />
+    <association property="user" javaType="com.fase.po.Fuser">
+    <id column="FUID" jdbcType="VARCHAR" property="fuid" />
+    <result column="FNAME" jdbcType="VARCHAR" property="fname" />
+    <result column="FCOUNT" jdbcType="VARCHAR" property="fcount" />
+    <result column="FSEX" jdbcType="DECIMAL" property="fsex" />
+    <result column="FBIRTHDAY" jdbcType="DATE" property="fbirthday" />
+    <result column="FTEL" jdbcType="VARCHAR" property="ftel" />
+    <result column="FEMAIL" jdbcType="VARCHAR" property="femail" />
+    <result column="FPASSWORD" jdbcType="VARCHAR" property="fpassword" />
+    <result column="FLIVEPLACE" jdbcType="VARCHAR" property="fliveplace" />
+    <result column="FHEADIMAGE" jdbcType="VARCHAR" property="fheadimage" />
+    <result column="FBACKIMAGE" jdbcType="VARCHAR" property="fbackimage" />
+    <result column="FHTTP" jdbcType="VARCHAR" property="fhttp" />
+    <result column="FSOCIALLINK" jdbcType="VARCHAR" property="fsociallink" />
+    <result column="FSEXLIKE" jdbcType="DECIMAL" property="fsexlike" />
+    <result column="FBLODTYPE" jdbcType="VARCHAR" property="fblodtype" />
+    <result column="FEMOTION" jdbcType="VARCHAR" property="femotion" />
+    <result column="FPERSONAL" jdbcType="VARCHAR" property="fpersonal" />
+    <result column="FLIKEWORD" jdbcType="VARCHAR" property="flikeword" />
+    <result column="FSTATE" jdbcType="DECIMAL" property="fstate" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UWORKID, FUID, UCOMPANYNAME, UZHIWEI, ULOCATION, UDESCRIPTION, USEGTIME, USKILL
+  </sql>
+  <select id="selectbyFuid" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select f.*,w.* from FUSER f,U_WORK w where f.FUID=w.FUID and w.FUID=#{_parameter,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from U_WORK
+    where UWORKID = #{uworkid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from U_WORK
+    where UWORKID = #{uworkid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.UWork" >
+    insert into U_WORK (UWORKID, FUID, UCOMPANYNAME, 
+      UZHIWEI, ULOCATION, UDESCRIPTION, 
+      USEGTIME, USKILL)
+    values (#{uworkid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{ucompanyname,jdbcType=VARCHAR}, 
+      #{uzhiwei,jdbcType=VARCHAR}, #{ulocation,jdbcType=VARCHAR}, #{udescription,jdbcType=VARCHAR}, 
+      #{usegtime,jdbcType=VARCHAR}, #{uskill,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.UWork" >
+   <selectKey resultType="String" order="AFTER" keyProperty="id">
+    SELECT s_work.currval as UWORKID from DUAL
+  </selectKey>
+    insert into U_WORK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="ucompanyname != null" >
+        UCOMPANYNAME,
+      </if>
+      <if test="uzhiwei != null" >
+        UZHIWEI,
+      </if>
+      <if test="ulocation != null" >
+        ULOCATION,
+      </if>
+      <if test="udescription != null" >
+        UDESCRIPTION,
+      </if>
+      <if test="usegtime != null" >
+        USEGTIME,
+      </if>
+      <if test="uskill != null" >
+        USKILL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ucompanyname != null" >
+        #{ucompanyname,jdbcType=VARCHAR},
+      </if>
+      <if test="uzhiwei != null" >
+        #{uzhiwei,jdbcType=VARCHAR},
+      </if>
+      <if test="ulocation != null" >
+        #{ulocation,jdbcType=VARCHAR},
+      </if>
+      <if test="udescription != null" >
+        #{udescription,jdbcType=VARCHAR},
+      </if>
+      <if test="usegtime != null" >
+        #{usegtime,jdbcType=VARCHAR},
+      </if>
+      <if test="uskill != null" >
+        #{uskill,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.UWork" >
+    update U_WORK
+    <set >
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ucompanyname != null" >
+        UCOMPANYNAME = #{ucompanyname,jdbcType=VARCHAR},
+      </if>
+      <if test="uzhiwei != null" >
+        UZHIWEI = #{uzhiwei,jdbcType=VARCHAR},
+      </if>
+      <if test="ulocation != null" >
+        ULOCATION = #{ulocation,jdbcType=VARCHAR},
+      </if>
+      <if test="udescription != null" >
+        UDESCRIPTION = #{udescription,jdbcType=VARCHAR},
+      </if>
+      <if test="usegtime != null" >
+        USEGTIME = #{usegtime,jdbcType=VARCHAR},
+      </if>
+      <if test="uskill != null" >
+        USKILL = #{uskill,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UWORKID = #{uworkid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.UWork" >
+    update U_WORK
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      UCOMPANYNAME = #{ucompanyname,jdbcType=VARCHAR},
+      UZHIWEI = #{uzhiwei,jdbcType=VARCHAR},
+      ULOCATION = #{ulocation,jdbcType=VARCHAR},
+      UDESCRIPTION = #{udescription,jdbcType=VARCHAR},
+      USEGTIME = #{usegtime,jdbcType=VARCHAR},
+      USKILL = #{uskill,jdbcType=VARCHAR}
+    where UWORKID = #{uworkid,jdbcType=VARCHAR}
+  </update>
+</mapper>

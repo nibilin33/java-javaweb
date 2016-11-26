@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.SettimeMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Settime" >
+    <id column="SEID" property="seid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="FBEFRIEND" property="fbefriend" jdbcType="VARCHAR" />
+    <result column="FTIMELINE" property="ftimeline" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SEID, FUID, FBEFRIEND, FTIMELINE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SETTIME
+    where FUID = #{fuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SETTIME
+    where SEID = #{seid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Settime" >
+    insert into SETTIME (SEID, FUID, FBEFRIEND, 
+      FTIMELINE)
+    values (#{seid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{fbefriend,jdbcType=VARCHAR}, 
+      #{ftimeline,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Settime" >
+    insert into SETTIME
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="seid != null" >
+        SEID,
+      </if>
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="fbefriend != null" >
+        FBEFRIEND,
+      </if>
+      <if test="ftimeline != null" >
+        FTIMELINE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="seid != null" >
+        #{seid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="fbefriend != null" >
+        #{fbefriend,jdbcType=VARCHAR},
+      </if>
+      <if test="ftimeline != null" >
+        #{ftimeline,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Settime" >
+    update SETTIME
+    <set >
+      <if test="fbefriend != null" >
+        FBEFRIEND = #{fbefriend,jdbcType=VARCHAR},
+      </if>
+      <if test="ftimeline != null" >
+        FTIMELINE = #{ftimeline,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where FUID = #{fuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Settime" >
+    update SETTIME
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      FBEFRIEND = #{fbefriend,jdbcType=VARCHAR},
+      FTIMELINE = #{ftimeline,jdbcType=VARCHAR}
+    where SEID = #{seid,jdbcType=VARCHAR}
+  </update>
+</mapper>

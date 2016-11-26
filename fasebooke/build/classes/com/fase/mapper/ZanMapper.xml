@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.ZanMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Zan" >
+    <id column="ZID" property="zid" jdbcType="VARCHAR" />
+    <result column="DID" property="did" jdbcType="VARCHAR" />
+    <result column="EMOTION" property="emotion" jdbcType="VARCHAR" />
+    <result column="COUNTER" property="counter" jdbcType="DECIMAL" />
+    <result column="FNAME" property="fname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ZID, DID, EMOTION, COUNTER, FNAME
+  </sql>
+  <select id="selectCount" parameterType="java.lang.String" resultType="int">
+  select count(*) from ZAN where DID = #{did,jdbcType=VARCHAR}
+  </select>
+  <select id="selectBydid" resultMap="BaseResultMap" parameterType="java.lang.String">
+   select 
+    <include refid="Base_Column_List" />
+    from ZAN
+    where DID = #{did,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ZAN
+    where ZID = #{zid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ZAN
+    where ZID = #{zid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Zan" >
+    insert into ZAN (ZID, DID, EMOTION, 
+      COUNTER, FNAME)
+    values (#{zid,jdbcType=VARCHAR}, #{did,jdbcType=VARCHAR}, #{emotion,jdbcType=VARCHAR}, 
+      #{counter,jdbcType=DECIMAL}, #{fname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Zan" >
+    insert into ZAN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="zid != null" >
+        ZID,
+      </if>
+      <if test="did != null" >
+        DID,
+      </if>
+      <if test="emotion != null" >
+        EMOTION,
+      </if>
+      <if test="counter != null" >
+        COUNTER,
+      </if>
+      <if test="fname != null" >
+        FNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="zid != null" >
+        #{zid,jdbcType=VARCHAR},
+      </if>
+      <if test="did != null" >
+        #{did,jdbcType=VARCHAR},
+      </if>
+      <if test="emotion != null" >
+        #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="counter != null" >
+        #{counter,jdbcType=DECIMAL},
+      </if>
+      <if test="fname != null" >
+        #{fname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Zan" >
+    update ZAN
+    <set >
+      <if test="did != null" >
+        DID = #{did,jdbcType=VARCHAR},
+      </if>
+      <if test="emotion != null" >
+        EMOTION = #{emotion,jdbcType=VARCHAR},
+      </if>
+      <if test="counter != null" >
+        COUNTER = #{counter,jdbcType=DECIMAL},
+      </if>
+      <if test="fname != null" >
+        FNAME = #{fname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ZID = #{zid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Zan" >
+    update ZAN
+    set DID = #{did,jdbcType=VARCHAR},
+      EMOTION = #{emotion,jdbcType=VARCHAR},
+      COUNTER = #{counter,jdbcType=DECIMAL},
+      FNAME = #{fname,jdbcType=VARCHAR}
+    where ZID = #{zid,jdbcType=VARCHAR}
+  </update>
+</mapper>

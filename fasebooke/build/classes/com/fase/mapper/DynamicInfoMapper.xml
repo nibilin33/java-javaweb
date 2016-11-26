@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.DynamicInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.DynamicInfo" >
+    <id column="DID" property="did" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="SENDITME" property="senditme" jdbcType="DATE" />
+    <result column="SENDWORDS" property="sendwords" jdbcType="VARCHAR" />
+    <result column="SENDIMAGE" property="sendimage" jdbcType="VARCHAR" />
+    <result column="ISVISIABLE" property="isvisiable" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    DID, FUID, SENDTIME, SENDWORDS, SENDIMAGE, ISVISIABLE
+  </sql>
+  <select id="selectPcount" statementType="CALLABLE" parameterType="java.util.Map">
+   <![CDATA[
+     call P_ALL(#{fuid,mode=IN,jdbcType=VARCHAR},#{result,jdbcType=INTEGER,mode=OUT})
+     ]]> 
+  </select>
+<!--   <select id="selectinfobyfuid" parameterType="java.lang.String" resultMap="BaseResultMap">  
+     select  <include refid="Base_Column_List" /> from DYNAMICINFO where FUID=${_parameter} order by sendtime desc
+    </select>  -->
+      <select id="selectinfobyfuid" statementType="CALLABLE" parameterType="java.util.Map">  
+     <![CDATA[
+     call My_dy(#{fuid,mode=IN,jdbcType=VARCHAR},#{offset,mode=IN,jdbcType=DECIMAL},#{maxs,mode=IN,jdbcType=DECIMAL},#{result,jdbcType=CURSOR,mode=OUT,javaType=java.sql.ResultSet,resultMap=com.fase.mapper.DynamicInfoMapper.BaseResultMap})
+     ]]> 
+    </select> 
+<select id="selectinfo" parameterType="java.lang.String" resultMap="BaseResultMap">  
+     select  <include refid="Base_Column_List" /> from (${_parameter}) order by sendtime desc
+    </select> 
+    <select id="selectcount" resultType="int">
+    select count(*) from dynamicinfo
+    </select>
+    <select id="selectallowinfo" statementType="CALLABLE" parameterType="java.util.Map" >
+     <![CDATA[
+     call P_Dynamic(#{fuid,mode=IN,jdbcType=VARCHAR},#{offset,mode=IN,jdbcType=DECIMAL},#{maxs,mode=IN,jdbcType=DECIMAL},#{result,jdbcType=CURSOR,mode=OUT,javaType=java.sql.ResultSet,resultMap=com.fase.mapper.DynamicInfoMapper.BaseResultMap})
+     ]]> 
+
+    </select>
+    <insert id="insertIntoDy" parameterType="com.fase.po.DynamicInfo">
+    insert into DYNAMICINFO (FUID, SENDTIME, SENDWORDS, SENDIMAGE, ISVISIABLE)values(#{fuid,jdbcType=VARCHAR},#{sendtime,jdbcType=DATE},#{sendwords,jdbcType=VARCHAR},#{sendimage,jdbcType=VARCHAR},#{isvisiable,jdbcType=DECIMAL})
+    </insert>
+</mapper>

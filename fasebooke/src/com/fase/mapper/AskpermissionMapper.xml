@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fase.mapper.AskpermissionMapper">
+  <resultMap id="BaseResultMap" type="com.fase.po.Askpermission">
+    <id column="ASID" jdbcType="VARCHAR" property="asid" />
+    <result column="FUID" jdbcType="VARCHAR" property="fuid" />
+    <result column="FFID" jdbcType="VARCHAR" property="ffid" />
+    <result column="ASKTIME" jdbcType="DATE" property="asktime" />
+    <result column="ASKTYPE" jdbcType="DECIMAL" property="asktype" />
+    <result column="GROUPID" jdbcType="VARCHAR" property="groupid" />
+    <result column="ACTIVITYID" jdbcType="VARCHAR" property="activityid" />
+    <result column="MSGSTAGE" jdbcType="DECIMAL" property="msgstage" />
+  </resultMap>
+  <resultMap id="hahaMap" type="com.fase.po.Askpermission">
+   <id column="ASID" jdbcType="VARCHAR" property="asid" />
+    <result column="FUID" jdbcType="VARCHAR" property="fuid" />
+    <result column="FFID" jdbcType="VARCHAR" property="ffid" />
+    <result column="ASKTIME" jdbcType="DATE" property="asktime" />
+    <result column="ASKTYPE" jdbcType="DECIMAL" property="asktype" />
+    <result column="GROUPID" jdbcType="VARCHAR" property="groupid" />
+    <result column="ACTIVITYID" jdbcType="VARCHAR" property="activityid" />
+    <result column="MSGSTAGE" jdbcType="DECIMAL" property="msgstage" />
+    <association property="fuser" javaType="com.fase.po.Fuser">
+     <result column="FNAME" property="fname"/>
+    </association>
+  </resultMap>
+
+  <select id="selectall" parameterType="java.lang.String" resultMap="hahaMap">
+      select t1.*,t2.FNAME from ASKPERMISSION t1 left join FUSER t2 on t1.FUID=t2.FUID where t1.FFID=#{_parameter,jdbcType=VARCHAR}
+      and t1.MSGSTAGE=0 order by ASKTIME DESC
+  </select>
+  <insert id="insert" parameterType="com.fase.po.Askpermission">
+    insert into ASKPERMISSION (ASID, FUID, FFID, 
+      ASKTIME, ASKTYPE, GROUPID, 
+      ACTIVITYID, MSGSTAGE)
+    values (#{asid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{ffid,jdbcType=VARCHAR}, 
+      #{asktime,jdbcType=DATE}, #{asktype,jdbcType=DECIMAL}, #{groupid,jdbcType=VARCHAR}, 
+      #{activityid,jdbcType=VARCHAR}, #{msgstage,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Askpermission">
+    insert into ASKPERMISSION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="asid != null">
+        ASID,
+      </if>
+      <if test="fuid != null">
+        FUID,
+      </if>
+      <if test="ffid != null">
+        FFID,
+      </if>
+      <if test="asktime != null">
+        ASKTIME,
+      </if>
+      <if test="asktype != null">
+        ASKTYPE,
+      </if>
+      <if test="groupid != null">
+        GROUPID,
+      </if>
+      <if test="activityid != null">
+        ACTIVITYID,
+      </if>
+      <if test="msgstage != null">
+        MSGSTAGE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="asid != null">
+        #{asid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuid != null">
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ffid != null">
+        #{ffid,jdbcType=VARCHAR},
+      </if>
+      <if test="asktime != null">
+        #{asktime,jdbcType=DATE},
+      </if>
+      <if test="asktype != null">
+        #{asktype,jdbcType=DECIMAL},
+      </if>
+      <if test="groupid != null">
+        #{groupid,jdbcType=VARCHAR},
+      </if>
+      <if test="activityid != null">
+        #{activityid,jdbcType=VARCHAR},
+      </if>
+      <if test="msgstage != null">
+        #{msgstage,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+ 
+ 
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Askpermission">
+    update ASKPERMISSION
+    <set>
+      <if test="fuid != null">
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ffid != null">
+        FFID = #{ffid,jdbcType=VARCHAR},
+      </if>
+      <if test="asktime != null">
+        ASKTIME = #{asktime,jdbcType=DATE},
+      </if>
+      <if test="asktype != null">
+        ASKTYPE = #{asktype,jdbcType=DECIMAL},
+      </if>
+      <if test="groupid != null">
+        GROUPID = #{groupid,jdbcType=VARCHAR},
+      </if>
+      <if test="activityid != null">
+        ACTIVITYID = #{activityid,jdbcType=VARCHAR},
+      </if>
+      <if test="msgstage != null">
+        MSGSTAGE = #{msgstage,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ASID = #{asid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Askpermission">
+    update ASKPERMISSION
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      FFID = #{ffid,jdbcType=VARCHAR},
+      ASKTIME = #{asktime,jdbcType=DATE},
+      ASKTYPE = #{asktype,jdbcType=DECIMAL},
+      GROUPID = #{groupid,jdbcType=VARCHAR},
+      ACTIVITYID = #{activityid,jdbcType=VARCHAR},
+      MSGSTAGE = #{msgstage,jdbcType=DECIMAL}
+    where ASID = #{asid,jdbcType=VARCHAR}
+  </update>
+
+  
+  <sql id="Base_Column_List">
+    ASID, FUID, FFID, ASKTIME, ASKTYPE, GROUPID, ACTIVITYID, MSGSTAGE
+  </sql>
+ 
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ASKPERMISSION
+    where ASID = #{asid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ASKPERMISSION
+    where ASID = #{asid,jdbcType=VARCHAR}
+  </delete>
+  
+
+</mapper>
