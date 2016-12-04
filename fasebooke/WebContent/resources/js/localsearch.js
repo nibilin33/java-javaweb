@@ -1,5 +1,9 @@
 var T=(function (){
     var focus = false;
+    $('#srch-term').blur(function(){
+    	var ul = $(this).next();
+    	ul.empty();
+    });
         $('#srch-term').focus(function () {
           console.log("dddddd");
             focus = true;

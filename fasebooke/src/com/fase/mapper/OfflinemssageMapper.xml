@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fase.mapper.OfflinemssageMapper" >
+  <resultMap id="BaseResultMap" type="com.fase.po.Offlinemssage" >
+    <id column="OFID" property="ofid" jdbcType="VARCHAR" />
+    <result column="FUID" property="fuid" jdbcType="VARCHAR" />
+    <result column="TOFUID" property="tofuid" jdbcType="VARCHAR" />
+    <result column="MSG" property="msg" jdbcType="VARCHAR" />
+    <result column="SENDTIME" property="sendtime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OFID, FUID, TOFUID, MSG, SENDTIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from OFFLINEMSSAGE
+    where TOFUID = #{tofuid,jdbcType=VARCHAR} order by SENDTIME DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from OFFLINEMSSAGE
+    where OFID = #{ofid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fase.po.Offlinemssage" >
+    insert into OFFLINEMSSAGE (OFID, FUID, TOFUID, 
+      MSG, SENDTIME)
+    values (#{ofid,jdbcType=VARCHAR}, #{fuid,jdbcType=VARCHAR}, #{tofuid,jdbcType=VARCHAR}, 
+      #{msg,jdbcType=VARCHAR}, #{sendtime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fase.po.Offlinemssage" >
+    insert into OFFLINEMSSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+  
+      <if test="fuid != null" >
+        FUID,
+      </if>
+      <if test="tofuid != null" >
+        TOFUID,
+      </if>
+      <if test="msg != null" >
+        MSG,
+      </if>
+      <if test="sendtime != null" >
+        SENDTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+  
+      <if test="fuid != null" >
+        #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="tofuid != null" >
+        #{tofuid,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fase.po.Offlinemssage" >
+    update OFFLINEMSSAGE
+    <set >
+      <if test="fuid != null" >
+        FUID = #{fuid,jdbcType=VARCHAR},
+      </if>
+      <if test="tofuid != null" >
+        TOFUID = #{tofuid,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        MSG = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        SENDTIME = #{sendtime,jdbcType=DATE},
+      </if>
+    </set>
+    where OFID = #{ofid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fase.po.Offlinemssage" >
+    update OFFLINEMSSAGE
+    set FUID = #{fuid,jdbcType=VARCHAR},
+      TOFUID = #{tofuid,jdbcType=VARCHAR},
+      MSG = #{msg,jdbcType=VARCHAR},
+      SENDTIME = #{sendtime,jdbcType=DATE}
+    where OFID = #{ofid,jdbcType=VARCHAR}
+  </update>
+</mapper>

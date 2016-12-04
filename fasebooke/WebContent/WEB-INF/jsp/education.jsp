@@ -25,10 +25,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/img/facebook_128px_1160395_easyicon.net.ico"/>
       <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.js"></script> 
-  
+    <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 
    <style>
-  
+   .zuobian{
+    margin-top: -11px;
+    margin-left: 40px;
+    color: darkgray;
+    }
        body{font-size:14px;font-family:"微软雅黑";background:url("http://localhost:8080/img/face/2.jpg")top no-repeat;background-attachment:fixed;z-index:0;background-size:100%;}
        a{      color: black;
          }
@@ -169,18 +173,16 @@ color: #FFFFFF;
 								<a href="http://localhost:8080/fasebooke/user/show.action?fuid=${current_user.fuid }">
 								<i class="glyphicon glyphicon-home"></i> 首页</a>
 							  </li>
-							  <li>
-								<a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> 好友请求</a>
-							  </li>
-							  <li>
+							
+							 <li>
 							    
-								<a href="javascript:;" title="消息" onclick="opennotice()" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-comments"></span></a>
-								<ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul>
+								<a href="javascript:;" title="消息" onclick="opennotice(this)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-comments"></span></a>
+								<ul class="dropdown-menu" role="menu"> </ul>
 							  </li>
 							  <li>
 							  <li>
-							<a  href="javascript:;" title="通知" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <span class="glyphicon glyphicon-globe"></span></a>
-                          <ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul> 
+							<a  href="javascript:;" onclick="openbroadcast(this)" title="通知" > <span class="glyphicon glyphicon-globe"></span></a>
+                          <ul class="dropdown-menu" role="menu"> </ul> 
 							  </li>
 				
 							  </li>
@@ -353,8 +355,8 @@ color: #FFFFFF;
 
   <div class="col-md-12">
  <ul class="lead nav nav-pills">
-  <li class="active">
-  <a href="http://localhost:8080/fasebooke/user/${current_user.fuid}.action">时间线</a></li><li><a href="http://localhost:8080/fasebooke/jian/${current_user.fuid}/firstin.action">简介</a></li><li><a href="http://localhost:8080/fasebooke/friend/${current_user.fuid}/myfreind.action">好友</a></li><li><a href="http://localhost:8080/fasebooke/picture/${current_user.fuid}/fuck.action">照片</a></li> 
+  <li >
+  <a href="http://localhost:8080/fasebooke/user/${current_user.fuid}.action">时间线</a></li><li class="active"><a href="http://localhost:8080/fasebooke/jian/${current_user.fuid}/firstin.action">简介</a></li><li><a href="http://localhost:8080/fasebooke/friend/${current_user.fuid}/myfreind.action">好友</a></li><li><a href="http://localhost:8080/fasebooke/picture/${current_user.fuid}/fuck.action">照片</a></li> 
    <li><a href="http://localhost:8080/fasebooke/user/${current_user.fuid}/checkin.action">签到</a></li>
    </ul>
   </div>

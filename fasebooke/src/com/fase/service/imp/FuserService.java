@@ -24,12 +24,16 @@ public class FuserService implements Ifuser {
 public boolean insertFuser(Fuser record) {
 	
 	// TODO 自动生成的方法存根
-	if(record.getFemail()!=null&&this.fuserdao.selectByTel2(record.getFemail())==1)
+	if(record.getFemail()!=null&&this.fuserdao.selectByTel2(record.getFemail())>=1)
 			return false;
-	if(record.getFtel()!=null&&this.fuserdao.selectByTel(record.getFtel())==1)
-			return false;	
-	 this.fuserdao.insertSelective(record);	
+	else
+		if(record.getFtel()!=null&&this.fuserdao.selectByTel(record.getFtel())>=1)
+			return false;
+		else
+		{ 
+			this.fuserdao.insertSelective(record);	
 	return true;
+		}
 }
 
 @Override

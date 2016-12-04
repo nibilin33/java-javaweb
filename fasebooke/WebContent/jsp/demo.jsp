@@ -24,7 +24,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/img/facebook_128px_1160395_easyicon.net.ico"/>
       <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.js"></script> 
-
+   		
+		
+		
+  
    <style>
        body{font-size:14px;font-family:"微软雅黑";background:url("http://localhost:8080/img/face/2.jpg")top no-repeat;background-attachment:fixed;z-index:0;background-size:100%;}
        a{      color: black;
@@ -168,32 +171,90 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
 
 
+<div id="showMsg" style="border: 1px solid; width: 500px; height: 400px; overflow: auto;"></div>
+
+    <div>
+
+        <input type="text" id="msg" /> 
+
+        <input type="button" id="sendButton" value="发送" />
+
+        <input type="button" value="改变背景" id="abcde" />
+
+    </div>
+
 <!--   container-->
 
  </div>
  </div>
 
-		
-		
-		
+
+	<script type="text/javascript">
+
+var socket =null;
+
+$(function(){
+
+    function parseObj(strData){//转换对象
+
+        return (new Function( "return " + strData ))();
+
+    };
+
+    //创建socket对象
+
+    socket = new WebSocket("ws://"+ window.location.host+"${pageContext.request.contextPath}/game?fuid=51");
+
+    //连接创建后调用
+
+    socket.onopen = function() {
+        
+        $("#showMsg").append("连接成功...<br/>");
+
+    };
+
+    socket.onmessage = function(message) {
+       console.log(message["data"]);
+       
+    };
+
+    //关闭连接的时候调用
+
+    socket.onclose = function(){
+
+        alert("close");
+
+    };
+
+    //出错时调用
+
+    socket.onerror = function() {
+
+        alert("error");
+
+    };
+
+    $("#sendButton").click(function() {
+    	var date=new Date();
+        var msg={"fuid":"51","tfuid":"61","msg":"haha","sendtime":date};
+        
+        socket.send(JSON.stringify(msg));
+
+    });
+
+    $("#abcde").click(function(){
+
+        $.post("${pageContext.request.contextPath}/game");
+
+    });
+
+});
+</script>	
 		
   <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/bootstrap.js"></script>
         <script type="text/javascript">
 
-        $('#test').diyUpload({
-        	url:'http://localhost:8080/fasebooke/pic/do.action',
-        	success:function( data ) {
-        		console.info( data );
-        	},
-        	error:function( err ) {
-        		console.info( err );	
-        	}
-        });
-        function dimiss(){
-            console.log("dddddddd");
-          $('.parentFileBox').remove();
-        }
- 
+        
 $(document).ready(function() {
 	$('[data-toggle=offcanvas]').click(function() {
 		$(this).toggleClass('visible-xs text-center');

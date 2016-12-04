@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html><head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+   
       
        <base href="<%=basePath%>">
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
@@ -25,6 +25,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/img/facebook_128px_1160395_easyicon.net.ico"/>
       <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.js"></script> 
+       <link href="<%=request.getContextPath()%>/resources/css/share.min.css" rel="stylesheet" type="text/css"/>
+             <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/social-share.min.js" id="wei"></script> 
          <script  type="text/javascript" src="<%=request.getContextPath()%>/resources/js/ajaxfileupload.js"></script>
            <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 <script language="javascript" type="text/javascript" src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js
@@ -33,14 +35,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  window.onload=function(){
 	 window.p=remote_ip_info.province+remote_ip_info.city;
  }
+ var cuserid='${visit.fuid}';
+ localStorage.setItem("visit_id",cuserid); 
  
  </script>
    <style>
+   
    .mask {       
             position: absolute; top: 58px; filter: alpha(opacity=60); background-color: #777;     
             z-index: 1002; left: 0px;     
             opacity:0.5; -moz-opacity:0.5;     
 } 
+
    .zuobian{
     margin-top: -11px;
     margin-left: 40px;
@@ -49,11 +55,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        body{font-size:14px;font-family:"微软雅黑";height:100%;background:url("http://localhost:8080/img/face/2.jpg")top no-repeat;background-attachment:fixed;z-index:0;background-size:100%;}
        a{      color: black;
          }
+.box2{width:960px;height:auto; margin:5px auto;position:relative;z-index:1;}
+/*内容发布区域*/
+.box2 .boxcenter{width:555px;height:auto;background:#fff;position:absolute;top:80px;left:180px;border:1px solid #ebccd1;border-radius:6px;}
+.box2 .boxcenter .boxc_t{height:30px;line-height:30px;}
+.box2 .boxcenter .boxc_t h4{padding-left:20px;background:#3BBFB4;border-top-left-radius:6px;
+		border-top-right-radius:6px;}
+.box2 .boxcenter .boxc_c{width:460px;height:100px;border:1px solid #A6C8FF;margin:8px auto;text-indent:10px;box-shadow:0 0 4px #A6C8FF;background-color: white}
+.box2 .boxcenter .boxc_b{width:80px;height:30px;position:absolute;right:10px;bottom:8px;}
+.box2 .boxcenter .boxc_b a{font-size:14px;color:#fff;line-height:30px;background:#3bbfb4;border-radius:6px;
+		display:block;text-align:center;text-decoration:none;}
+.box2 .boxcenter .boxc_b a:hover{background:#2C8E86;}
 .timeline{width:76px;height:auto; position:relative;left:160px;border-right:3px solid #428bca;}/**/
-.timeline .timeline_t{width:62px;height:62px;border-radius:50%;border:1px solid #3b5999;background:url("http://localhost:8080/img/face/100.png")no-repeat;background-size:100%;}
+.timeline .timeline_t{width:62px;height:62px;border-radius:50%;border:1px solid #3b5999;background:url("http://localhost:8080/img/face/100.png")no-repeat;background-size:100%;text-align:center;font-size:20px;color:white}
 .timeline .nextbox{width:380px;height:80px;position:absolute;top:509px;left:76px;}
 .a{width:380px;height:80px;background:#e7e7e7;border-radius:6px;margin-top:100px;top:300px;font-size:16px;line-height:20px;text-indent:20px;word-break:break-all;position:relative;left:94px;}
 .b{width:80px;min-height:80px;height: auto; border-radius:50%;border:2px solid #fff;background:#9DCFE1;position:relative;top:25px;margin-left:-137px;}
+#time{font-size:20px;color:#ababab;}
+#hour{font-size:12px;color:#92CADE;}
+
 
 </style>
     </head><body>
@@ -84,10 +104,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                           <li>
                              <a href="http://localhost:8080/fasebooke/user/${current_user.fuid}.action">  <c:choose>
                              <c:when test="${!empty current_user.fheadimage}">
-                             <img src="http://localhost:8080/img/${current_user.fuid}/${current_user.fheadimage}" style="border: 1px solid rgba(0, 0, 0, .1);width:24px;height:24px"><span>${current_user.fname}</span>
+                             <img src="http://localhost:8080/img/${current_user.fuid}/${current_user.fheadimage}" style="border: 1px solid rgba(0, 0, 0, .1);width:24px;height:24px">
                             </c:when>
                             <c:otherwise>
-                             <img src="http://localhost:8080/img/face/head_male_man_user_64px_1578_easyicon.net.png" style="border: 1px solid rgba(0, 0, 0, .1);width:24px;height:24px"><span>${current_user.fname}</span>
+                             <img src="http://localhost:8080/img/face/head_male_man_user_64px_1578_easyicon.net.png" style="border: 1px solid rgba(0, 0, 0, .1);width:24px;height:24px">
                             </c:otherwise>
                             </c:choose><span>${current_user.fname}</span>
                              </a>
@@ -96,18 +116,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<a href="http://localhost:8080/fasebooke/user/show.action?fuid=${current_user.fuid}">
 								<i class="glyphicon glyphicon-home"></i> 首页</a>
 							  </li>
-							  <li>
-								<a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> 好友请求</a>
-							  </li>
+							
 							  <li>
 							    
 								<a href="javascript:;" title="消息" onclick="opennotice(this)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-comments"></span></a>
-								<ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul>
+								<ul class="dropdown-menu" role="menu"> </ul>
 							  </li>
 							  <li>
 							  <li>
-							<a  href="javascript:;" title="通知" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <span class="glyphicon glyphicon-globe"></span></a>
-                          <ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul> 
+							<a  href="javascript:;" onclick="openbroadcast(this)" title="通知" > <span class="glyphicon glyphicon-globe"></span></a>
+                          <ul class="dropdown-menu" role="menu"> </ul> 
 							  </li>
 				
 							  </li>
@@ -261,7 +279,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="imagrap" id="imagewrap">
     
   <script>
- var bk='${current_user.fbackimage}';
+ var bk='${visit.fbackimage}';
  if(bk!=''){
 	 $('#imagewrap').removeClass("imagrap").addClass("imagrap2");
  $('#imagewrap').css("background",'url("'+bk+'") no-repeat 0px 55px');
@@ -277,7 +295,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            <input type="file" id="imagefile2" style="position:relative;opacity:0;position:relative;opacity:0;margin-top:-20px" onchange="backimage(this)"title="选择图片" name="sendimage" accept="image/*" >
      </div>
      </a>
-     <img class="pic" src="http://localhost:8080/img/${visit.fuid}/${visit.fheadimage}">
+
+      <c:choose>
+                             <c:when test="${!empty visit.fheadimage}">
+                             <img class="pic" src="http://localhost:8080/img/${visit.fuid}/${visit.fheadimage}">
+                            </c:when>
+                            <c:otherwise>
+                             <img class="pic" src="http://localhost:8080/img/face/head_male_man_user_64px_1578_easyicon.net.png" >
+                            </c:otherwise>
+                            </c:choose>
      <span style="color:white;font-size:30px;">${visit.fname}</span>
  </div>
   <div class="container" style="margin-left:20%;min-height:41px">
@@ -286,7 +312,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   <ul class="lead nav nav-pills">
   <li class="active">
-  <a href="#">时间线</a></li><li><a href="http://localhost:8080/fasebooke/jian/${visit.fuid}/${current_user.fuid}/firstin.action">简介</a></li><li><a href="http://localhost:8080/fasebooke/friend/${visit.fuid}/tosee.action">好友</a></li><li><a href="http://localhost:8080/fasebooke/picture/${visit.fuid}/fuck.action">照片</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">更多<i class="fa fa-caret-down"></i></a> <ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">管理各项</a></li></ul>
+  <a href="http://localhost:8080/fasebooke/user/${visit.fuid}/${current_user.fuid}.action">时间线</a></li><li><a href="http://localhost:8080/fasebooke/jian/${visit.fuid}/${current_user.fuid}/firstin.action">简介</a></li><li><a href="http://localhost:8080/fasebooke/comment/${visit.fuid}/${current_user.fuid}/toseenote.action">留言</a></li><li><a href="http://localhost:8080/fasebooke/picture/${visit.fuid}/${current_user.fuid}/fuck.action">照片</a></li>
+
+  </ul>
   </div>
   </div>
 
@@ -297,9 +325,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
  <div class="box2"> 
  <div class="row" style="background-color:rgba(0,0,0,0.075);"> 
- <div class="timeline_t">				
+  <div class="timeline_t" >	
+ <a href="#postModal" role="button" data-toggle="modal"> 留言</a>		
 		</div>
-  <div class="col-sm-7" style="margin-left:200px" > 
+  <div class="col-sm-7" style="margin-left:200px" id="main2"> 
 		 <div class="well" style="margin-bottom:20px;width:600px"> 
   
   <form class="form-horizontal" role="form"  method="post" action="/fasebooke/fdynamiccontrol/timeline.action" onsubmit="return comf()" id="zz">
@@ -349,11 +378,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </div> 
 <!--时光轴线-->
       
-		
-	<!-- timeline -->
-	  <%--  <c:set var="timeline1" value="${timeline}"  scope="session"/>
-	   <c:forEach begin="0" end="${count}" var="i"> 
-           <c:set var="obj" value="${timeline1[i]}" />   --%>
+	
                   <c:forEach items="${timeline}"  var="obj" varStatus="vs">
 										     <div class="b"></div>
 										  <div class="panel panel-default " style="width:600px">
@@ -376,6 +401,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                           jiexi(sendwords,dataid,sendimage);
 		                                     </script>
 											<div class="clearfix"></div>
+																					                        <div class="social-share" data-initialized="true" data-description="${emp.sendwords}" data-image ="${emp.imagehead}" data-title="${emp.sendwords}">
+    <a href="#" class="social-share-icon icon-weibo"></a>
+    <a href="#" class="social-share-icon icon-qq"></a>
+    <a href="#" class="social-share-icon icon-tencent"></a>
+</div> 
 										<hr>
 											<div style="display:inline-flex">
 											
@@ -484,9 +514,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 </div>
 </div>
+<div id="postModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" >
+		  <div class="modal-dialog">
+		
+		  <div class="modal-content">
+			  <div class="modal-body">
+	           <textarea rows="10" cols="76" style="margin-left:10px" id="leavenote"></textarea>
+			  <div class="modal-footer">
+				  <div>
+				  <button class="btn btn-primary btn-sm" data-dismiss="modal" aria-hidden="true" data='${visit.fuid}' onclick="leaveM(this)">留言</button>
+				  </div>	
+			  </div>
+		  </div>
+		  </div>
+		</div>
+      </div>
 <!--row-->
   <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/bootstrap.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/localsearch.js"></script>
+      <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/scroll3.js"></script>
 <script>
 function commenthide(e){
     var parent=e.parentNode.parentNode.parentNode;

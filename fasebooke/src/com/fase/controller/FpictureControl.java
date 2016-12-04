@@ -58,6 +58,37 @@ private Ipictureservice ipic;
        mv.setViewName("photo");
        return mv;
 }
+@RequestMapping (value="/{visitfuid}/{fuid}/fuck.action")
+public ModelAndView vopengay(@PathVariable("fuid")String fuid,@PathVariable("visitfuid")String visitfuid,HttpServletRequest re){
+    ModelAndView mv=new ModelAndView();
+   HttpSession s=re.getSession();
+   Fuser ii=(Fuser) s.getAttribute("current_user");
+   if(ii==null){
+	   ii=ifuser.selectbyid(fuid);
+   }
+   s.setAttribute("current_user", ii);
+   Fuser vi=ifuser.selectbyid(visitfuid);
+   s.setAttribute("visit", vi);
+	List<Photogallery> pall=pservice.selectall(visitfuid);
+	 mv.addObject("gaypic", pall);
+	 mv.setViewName("xiangce");
+   return mv;
+}
+@RequestMapping(value="/{fuid}/onthisday.action")
+public ModelAndView onthisday(@PathVariable("fuid")String fuid,HttpServletRequest re){
+	  ModelAndView mv=new ModelAndView();
+	 
+	  HttpSession s=re.getSession();
+	   Fuser ii=(Fuser) s.getAttribute("current_user");
+	   if(ii==null){
+		   ii=ifuser.selectbyid(fuid);
+	   }
+	   s.setAttribute("current_user", ii);
+	List<Photogallery> pall=pservice.selectall(fuid);
+	 mv.addObject("gaypic", pall);
+	   mv.setViewName("onthisday");
+	return mv;
+}
 @RequestMapping(value="/{gid}/ingay.action")
 public ModelAndView ingay(@PathVariable("gid")String gid,HttpServletRequest re){
    String fuid=re.getParameter("fuid");
@@ -76,9 +107,6 @@ public ModelAndView ingay(@PathVariable("gid")String gid,HttpServletRequest re){
    s.setAttribute("current_user", ii);
    System.out.println(po.getGpid());
    List<Picture> ps=po.getPictures();
-  for(int i=0;i<po.getPictures().size();i++){
-	  System.out.println(ps.get(i).getPicdescribe());
-  }
 /*   s.setAttribute("gaypic", po);*/
  mv.addObject("gaypic", po);
    mv.setViewName("gallary");
@@ -167,9 +195,9 @@ public void createg(@RequestBody Photogallery po,HttpServletResponse response){
 }
 @RequestMapping(value="/dotest.action") /* 上传照片*/
 public void dotest(HttpServletResponse response,HttpServletRequest request) throws IllegalStateException, IOException{
-	 // 创建一个通用的多部分解析器
-   String gid=request.getParameter("gid");
-   System.out.println(gid+"我的相册id");
+	 
+	  String gid=request.getParameter("gid");
+	// 创建一个通用的多部分解析器
    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
            request.getSession().getServletContext());
    String myFileName="";

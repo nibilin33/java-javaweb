@@ -11,7 +11,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
+import com.sun.mail.util.BASE64EncoderStream;
 
 public class MailSender {
 	 public static void sendMessage( String to, String subject, String messageText) throws MessagingException {  

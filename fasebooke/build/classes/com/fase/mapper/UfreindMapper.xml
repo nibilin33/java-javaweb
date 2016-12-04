@@ -34,10 +34,13 @@
   <sql id="Base_Column_List">
     UFID, FUID, FFID, FFTYPE, ISNOTICE
   </sql>
+  <select id="selectisbefirend" parameterType="java.util.Map" resultType="int">
+    select count(*) from ( select * from UFREIND where FUID in(select FFID from UFREIND where FUID=#{askfuid,jdbcType=VARCHAR})) where FFID=#{fuid,jdbcType=VARCHAR};
+  </select>
   <select id="selectallfriend" parameterType="java.lang.String" resultMap="BaseResultMap">
-   select s.*,t.*
+  select s.*,t.*
     from UFREIND t,FUSER s
-    where t.FFID=s.FUID and t.FUID=#{_parameter,jdbcType=VARCHAR}
+    where t.FFID=s.FUID and t.FUID=#{_parameter,jdbcType=VARCHAR}   
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 

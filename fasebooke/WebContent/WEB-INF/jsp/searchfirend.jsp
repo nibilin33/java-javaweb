@@ -46,22 +46,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="column col-sm-2 col-xs-1 sidebar-offcanvas" id="sidebar">
 					  
 						<ul class="nav">
-							<li><a href="#" data-toggle="offcanvas" class="visible-xs text-center"><i class="glyphicon glyphicon-chevron-right"></i></a></li>
+							<li><a href="javascript:;" data-toggle="offcanvas" class="visible-xs text-center"><i class="glyphicon glyphicon-chevron-right"></i></a></li>
 						</ul>
 					   
 						<ul class="nav hidden-xs" id="lg-menu">
-							<li class="active"><a href="#featured"><i class="fa fa-facebook-square"></i> 欢迎来到fasebooke</a></li>
-							<li><a href="#stories"><i class="fa fa-pencil-square-o"></i>消息</a></li>
-							<li><a href="#"><i class="glyphicon glyphicon-list"></i> 好友名单</a></li>
-							<li><a href="#"><i class="glyphicon glyphicon-picture"></i> 照片</a></li>
+							<li class="active"><a href="javascript:;"><i class="fa fa-facebook-square"></i> 欢迎来到fasebooke</a></li>
+							<li><a href="javascript:;" onclick="openChatService()"><i class="glyphicon glyphicon-list"></i> fasebooke聊天窗</a></li>
+							<li><a href="http://localhost:8080/fasebooke/picture/${current_user.fuid}/onthisday.action"><i class="glyphicon glyphicon-picture"></i> 照片墙</a></li>
 							<li>
-							    <a href=""><i class="fa fa-bookmark"></i>收藏夹</a>
-							</li>
-							<li>
-							    <a href=""><i class="fa  fa-calendar" ></i>活动</a>
-							</li>
-							<li>
-							    <a href=""><i class="fa  fa-history" ></i>那年今天</a>
+							    <a href="http://localhost:8080/fasebooke/comment/${current_user.fuid}/seenote.action"><i class="fa  fa-history" ></i>留言墙</a>
 							</li>
 						</ul>
 						<ul class="list-unstyled hidden-xs" id="sidebar-footer">
@@ -91,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							  </button>
-							  <a href="" class="navbar-brand logo">f</a>
+							  <a href="javascript:;" class="navbar-brand logo">f</a>
 							</div>
 							<nav class="collapse navbar-collapse" role="navigation">
 							<form class="navbar-form navbar-left" method="post" action="/fasebooke/user/${current_user.fuid}/plusfd.action">
@@ -105,32 +98,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</form>
 							<ul class="nav navbar-nav">
                           <li>
-                             <a href="http://localhost:8080/fasebooke/user/${current_user.fuid}.action">  <c:choose>
+                             <a href="http://localhost:8080/fasebooke/user/${current_user.fuid}.action"> 
+                              <c:choose>
                              <c:when test="${!empty current_user.fheadimage}">
                              <img src="http://localhost:8080/img/${current_user.fuid}/${current_user.fheadimage}" style="border: 1px solid rgba(0, 0, 0, .1);width:24px;height:24px"><span>${current_user.fname}</span>
                             </c:when>
                             <c:otherwise>
                              <img src="http://localhost:8080/img/face/head_male_man_user_64px_1578_easyicon.net.png" style="border: 1px solid rgba(0, 0, 0, .1);width:24px;height:24px"><span>${current_user.fname}</span>
                             </c:otherwise>
-                            </c:choose><span>${current_user.fname}</span>
+                            </c:choose>
                              </a>
                           </li>
 							  <li>
 								<a href="http://localhost:8080/fasebooke/user/show.action?fuid=${current_user.fuid }">
 								<i class="glyphicon glyphicon-home"></i> 首页</a>
 							  </li>
-							  <li>
-								<a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> 好友请求</a>
-							  </li>
+							 
 							  <li>
 							    
-								<a href="javascript:;" title="消息" onclick="opennotice()" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-comments"></span></a>
-								<ul class="dropdown-menu" role="menu"> <li><a href="#"></a></li><li><a href="#"></a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul>
+								<a href="javascript:;" title="消息" onclick="opennotice(this)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-comments"></span></a>
+								<ul class="dropdown-menu" role="menu"> </ul>
 							  </li>
 							  <li>
 							  <li>
-							<a  href="javascript:;" title="通知" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <span class="glyphicon glyphicon-globe"></span></a>
-                          <ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul> 
+							<a  href="javascript:;" onclick="openbroadcast(this)" title="通知" > <span class="glyphicon glyphicon-globe"></span></a>
+                          <ul class="dropdown-menu" role="menu"></ul> 
 							  </li>
 				
 							  </li>
@@ -297,7 +289,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       <img src="http://localhost:8080/img/${fd.fuid }/${fd.fheadimage}" style="width:80px;height:80px">
                       </c:when>
                       <c:otherwise>
-                       <img src="" style="width:80px;height:80px">
+                       <img src="http://localhost:8080/img/face/head_male_man_user_64px_1578_easyicon.net.png" style="width:80px;height:80px">
                       </c:otherwise>
                       </c:choose>
                      </div>

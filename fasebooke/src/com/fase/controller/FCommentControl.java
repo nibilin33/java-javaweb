@@ -15,16 +15,19 @@ import net.sf.json.JSONObject;
 import oracle.jdbc.driver.OracleTypes;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fase.iservice.Icommentservice;
+import com.fase.iservice.Ileave;
 import com.fase.mapper.FuserMapper;
 import com.fase.po.Askpermission;
 import com.fase.po.DynamicInfo;
 import com.fase.po.Fuser;
 import com.fase.po.Helpcenter;
+import com.fase.po.Leavenote;
 import com.fase.po.TComment;
 import com.fase.service.imp.Fcomment;
 
@@ -36,6 +39,68 @@ public class FCommentControl {
 	private Icommentservice fservice;
 	@Resource
 	private FuserMapper fuservice;
+	@Resource
+	private Ileave ileveservice;
+	@RequestMapping (value="/{fuid}/seenote.action")
+	public ModelAndView seenote(@PathVariable("fuid")String fuid,HttpServletRequest re){
+		ModelAndView mv=new ModelAndView();
+		HttpSession s=re.getSession();
+		Fuser us=(Fuser) s.getAttribute("current_user");
+		if(us==null){
+		  us=fuservice.selectByPrimaryKey(fuid);
+	      s.setAttribute("current_user", us);
+		}
+		List<Leavenote> note=ileveservice.selectbyfuid(fuid);
+		for(int i=0;i<note.size();i++){
+			note.get(i).setFcount( fuservice.selectByPrimaryKey(note.get(i).getLfuid()).getFcount());
+		}
+		System.out.println(note.size()+"iiiiiiiiii");
+		mv.addObject("note", note);
+		mv.setViewName("leavenote");
+		return mv;
+	}
+	@RequestMapping (value="/{visitfuid}/{fuid}/toseenote.action")
+	public ModelAndView toseenote(@PathVariable("fuid")String fuid,@PathVariable("visitfuid")String visitfuid,HttpServletRequest re){
+		ModelAndView mv=new ModelAndView();
+		HttpSession s=re.getSession();
+		Fuser us=(Fuser) s.getAttribute("current_user");
+		if(us==null){
+		  us=fuservice.selectByPrimaryKey(fuid);
+	      s.setAttribute("current_user", us);
+		}
+		Fuser vi=fuservice.selectByPrimaryKey(visitfuid);
+		s.setAttribute("visit", vi);
+		List<Leavenote> note=ileveservice.selectbyfuid(visitfuid);
+		for(int i=0;i<note.size();i++){
+			note.get(i).setFcount( fuservice.selectByPrimaryKey(note.get(i).getLfuid()).getFcount());
+		}
+	   
+		mv.addObject("note", note);
+		mv.setViewName("leavenotetosee");
+		return mv;
+	}
+	@RequestMapping (value="/addnote.action")
+	public void addnote(@RequestBody Leavenote le,HttpServletResponse response){
+	
+	    int n=   ileveservice.insertIleve(le);
+	  
+	       if(n==1){
+	    	   try {
+				response.getWriter().print("sucuss");
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+	       }else
+	       {
+	    	   try {
+				response.getWriter().print("wrong")  ;
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+	       }
+	}
 	@RequestMapping(value="/dycomment.action")
 public ModelAndView findCommentByItemId(HttpServletRequest request, HttpServletResponse response){
    String parentid=request.getParameter("contentid");

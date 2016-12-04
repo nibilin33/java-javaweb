@@ -19,6 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
    <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.js"></script> 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/diyUpload/css/webuploader.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/index.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/diyUpload/css/diyUpload.css">
 <script type="text/javascript" src="<%=request.getContextPath()%>/diyUpload/js/webuploader.html5only.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/diyUpload/js/diyUpload.js"></script>
@@ -31,6 +32,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/img/facebook_128px_1160395_easyicon.net.ico"/>
    <style>
+   .zuobian {
+    margin-top: -11px;
+    margin-left: 40px;
+    color: darkgray;
+}
        body{font-size:14px;font-family:"微软雅黑";background:url("http://localhost:8080/img/face/2.jpg")top no-repeat;background-attachment:fixed;z-index:0;background-size:100%;}
        a{      color: black;
          }
@@ -92,25 +98,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <c:otherwise>
                              <img src="http://localhost:8080/img/face/head_male_man_user_64px_1578_easyicon.net.png" style="border: 1px solid rgba(0, 0, 0, .1);width:24px;height:24px"><span>${current_user.fname}</span>
                             </c:otherwise>
-                            </c:choose><span>${current_user.fname}</span>
+                            </c:choose>
                              </a>
                           </li>
 							  <li>
 								<a href="http://localhost:8080/fasebooke/user/show.action?fuid=${current_user.fuid }">
 								<i class="glyphicon glyphicon-home"></i> 首页</a>
 							  </li>
-							  <li>
-								<a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> 好友请求</a>
-							  </li>
+							 
 							  <li>
 							    
-								<a href="javascript:;" title="消息" onclick="opennotice()" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-comments"></span></a>
-								<ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul>
+								<a href="javascript:;" title="消息" onclick="opennotice(this)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-comments"></span></a>
+								<ul class="dropdown-menu" role="menu"> </ul>
 							  </li>
 							  <li>
 							  <li>
-							<a  href="javascript:;" title="通知" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <span class="glyphicon glyphicon-globe"></span></a>
-                          <ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul> 
+							<a  href="javascript:;" onclick="openbroadcast(this)" title="通知" > <span class="glyphicon glyphicon-globe"></span></a>
+                          <ul class="dropdown-menu" role="menu"> </ul> 
 							  </li>
 				
 							  </li>
@@ -249,7 +253,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								 
 								   <li  role="separator" class="divider"></li>
 								  <li><a href="/fasebooke/user/out/${current_user.fuid}.action">退出</a></li>
-								  <li><a href="">设置</a></li>
+					
 								   <li  role="separator" class="divider"></li>
 								  <li><a href="http://localhost:8080/fasebooke/user/helpcenter.action?fuid=${current_user.fuid}">帮助中心</a></li>
 								</ul>
@@ -284,8 +288,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   <div class="col-md-12">
  <ul class="lead nav nav-pills">
-  <li class="active">
-  <a href="http://localhost:8080/fasebooke/user/${current_user.fuid}.action">时间线</a></li><li><a href="http://localhost:8080/fasebooke/jian/${current_user.fuid}/firstin.action">简介</a></li><li><a href="http://localhost:8080/fasebooke/friend/${current_user.fuid}/myfreind.action">好友</a></li><li><a href="http://localhost:8080/fasebooke/picture/${current_user.fuid}/fuck.action">照片</a></li> 
+  <li >
+  <a href="http://localhost:8080/fasebooke/user/${current_user.fuid}.action">时间线</a></li><li><a href="http://localhost:8080/fasebooke/jian/${current_user.fuid}/firstin.action">简介</a></li><li><a href="http://localhost:8080/fasebooke/friend/${current_user.fuid}/myfreind.action">好友</a></li><li class="active"><a href="http://localhost:8080/fasebooke/picture/${current_user.fuid}/fuck.action">照片</a></li> 
    <li><a href="http://localhost:8080/fasebooke/user/${current_user.fuid}/checkin.action">签到</a></li>
    </ul>
   </div>
@@ -324,10 +328,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li >
           <a href="javascript:;" data="${pic.pid}" onclick="deleteOnePig(this)"style="color:gray;position:relative;top:15px;text-decoration:none"><i class="glyphicon glyphicon-remove"></i></a> 
      
-      <div class="pic2">
-     
+      <div class="pic2 fancybox img-responsive">
+       <a href="${pic.picdescribe}" class="fancy" data-fancybox-group="gallery" title="${pic.ptime }">
        <img src="${pic.picdescribe}">
-     
+     </a>
       </div>
          <p style="text-align:center">${pic.picname}</p>
       </li>
@@ -399,9 +403,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
   <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/bootstrap.js"></script>
         <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/localsearch.js"></script>
+         <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.fancybox.js"></script>
 <script type="text/javascript">
       
         $(document).ready(function() {
+        	$('.fancy').fancybox();
         window.gid=$('#my input[type=hidden]').val();
         	   $('#test').diyUpload({
                	url:'http://localhost:8080/fasebooke/picture/dotest.action?gid='+window.gid,

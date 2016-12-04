@@ -50,7 +50,7 @@ public class FintroControl {
 		  us=fuserver.selectbyid(fuid);
 	  s.setAttribute("current_user", us);
 		}
-		System.out.println(us.getFhometown()+"家乡");
+	
 		if(us.getFhometown()!=null){
 			Localp url=local.selectURL(us.getFhometown());
 	
@@ -123,6 +123,27 @@ public class FintroControl {
 		  us=fuserver.selectbyid(current_fuid);
 	  s.setAttribute("current_user", us);
 		}
+		Fuser vi=fuserver.selectbyid(visitfuid);
+		if(vi.getFhometown()!=null){
+			Localp url=local.selectURL(vi.getFhometown());
+	
+			vi.setFhome(url);
+		}
+		if(vi.getFliveplace()!=null){
+			Localp url=local.selectURL(vi.getFliveplace());
+		    vi.setFplace(url);
+		}
+	 UWork uw=work.selectbyFuid(visitfuid);
+	 List<UEducation> cation=edu.selectbyFuid(visitfuid);
+	 if(cation!=null){
+		 for(int i=0;i<cation.size();i++){
+			String url=college.selectURL( cation.get(i).getUschool());
+			cation.get(i).setUrl(url);
+		 }
+	 }
+	    mv.addObject("work",uw);
+	    mv.addObject("edu",cation);
+		s.setAttribute("visit", vi);
 		mv.setViewName("aboutmetosee");
 		return mv;
 	}

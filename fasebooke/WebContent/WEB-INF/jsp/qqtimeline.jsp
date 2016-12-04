@@ -23,9 +23,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <![endif]-->
    <link href="<%=request.getContextPath()%>/resources/css/facebook.css" rel="stylesheet" type="text/css"/>
          <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+          <link href="<%=request.getContextPath()%>/resources/css/share.min.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/img/facebook_128px_1160395_easyicon.net.ico"/>
       <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.js"></script>
-        
+         <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/social-share.min.js" id="wei"></script> 
              <script language="javascript" type="text/javascript" src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js
 "></script>
   <script language="javascript" type="text/javascript">
@@ -73,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		display:block;text-align:center;text-decoration:none;}
 .box2 .boxcenter .boxc_b a:hover{background:#2C8E86;}
 .timeline{width:76px;height:auto; position:relative;left:160px;border-right:3px solid #428bca;}/**/
-.timeline .timeline_t{width:62px;height:62px;border-radius:50%;border:1px solid #3b5999;background:url("http://localhost:8080/img/face/100.png")no-repeat;background-size:100%;}
+.timeline .timeline_t{width:62px;height:62px;border-radius:50%;border:1px solid #3b5999;background:url("http://localhost:8080/img/face/100.png")no-repeat;background-size:100%;text-align:center;font-size:20px;color:white}
 .timeline .nextbox{width:380px;height:80px;position:absolute;top:509px;left:76px;}
 .a{width:380px;height:80px;background:#e7e7e7;border-radius:6px;margin-top:100px;top:300px;font-size:16px;line-height:20px;text-indent:20px;word-break:break-all;position:relative;left:94px;}
 .b{width:80px;min-height:80px;height: auto; border-radius:50%;border:2px solid #fff;background:#9DCFE1;position:relative;top:25px;margin-left:-137px;}
@@ -122,18 +123,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<a href="http://localhost:8080/fasebooke/user/show.action?fuid=${current_user.fuid}">
 								<i class="glyphicon glyphicon-home"></i> 首页</a>
 							  </li>
-							  <li>
-								<a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> 好友请求</a>
-							  </li>
+							 
 							  <li>
 							    
-								<a href="javascript:;" title="消息" onclick="opennotice()" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-comments"></span></a>
-								<ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul>
+								<a href="javascript:;" title="消息" onclick="opennotice(this)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-comments"></span></a>
+								<ul class="dropdown-menu" role="menu" > </ul>
 							  </li>
 							  <li>
 							  <li>
-							<a  href="javascript:;" title="通知" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <span class="glyphicon glyphicon-globe"></span></a>
-                          <ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul> 
+							<a  href="javascript:;" onclick="openbroadcast(this)" title="通知" > <span class="glyphicon glyphicon-globe"></span></a>
+                          <ul class="dropdown-menu" role="menu"> </ul> 
 							  </li>
 				
 							  </li>
@@ -328,8 +327,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="timeline">
  <div class="box2"> 
  <div class="row" style="background-color:rgba(0,0,0,0.075);"  > 
- 
-  <div class="col-sm-7" style="margin-left:200px" id="main"> 
+ <div class="timeline_t" >	
+ <a href="#postModal" role="button" data-toggle="modal">  留言</a>		
+		</div>
+  <div class="col-sm-7" style="margin-left:200px" id="main2"> 
 		 <div class="well" style="margin-bottom:20px;width:600px"> 
   
   <form class="form-horizontal" role="form"  method="post" action="/fasebooke/fdynamiccontrol/timeline.action" onsubmit="return comf()" id="zz">
@@ -406,6 +407,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                           jiexi(sendwords,dataid,sendimage);
 		                                     </script>
 											<div class="clearfix"></div>
+												                        <div class="social-share" data-initialized="true" data-description="${emp.sendwords}" data-image ="${emp.imagehead}" data-title="${emp.sendwords}">
+    <a href="#" class="social-share-icon icon-weibo"></a>
+    <a href="#" class="social-share-icon icon-qq"></a>
+    <a href="#" class="social-share-icon icon-tencent"></a>
+</div> 
 										<hr>
 											<div style="display:inline-flex">
 											
@@ -515,6 +521,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 </div>
 <!--row-->
+	<div id="postModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" >
+		  <div class="modal-dialog">
+		
+		  <div class="modal-content">
+			  <div class="modal-body">
+	           <textarea rows="10" cols="76" style="margin-left:10px" id="leavenote"></textarea>
+			  <div class="modal-footer">
+				  <div>
+				  <button class="btn btn-primary btn-sm" data-dismiss="modal" aria-hidden="true" data='${current_user.fuid}' onclick="leaveM(this)">留言</button>
+				  </div>	
+			  </div>
+		  </div>
+		  </div>
+		</div>
+      </div>
   <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/bootstrap.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/localsearch.js"></script>
       <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/scroll2.js"></script>
@@ -557,13 +578,7 @@ $(document).ready(function() {
 		.on('hide.bs.collapse', function(a) {
 		  $(a.target).prev('.panel-heading').removeClass('active');
 		});
-    	$(".boxc_c").on("keydown",function(event){	
-            console.log("ddddddd");
-			var len =$(".boxc_c").text().length;			
-			if(len > 70){
-			alert("够了，你别输入了，哪儿那么多话儿！");					
-			}
-		});
+   
 	}); 
 	
       

@@ -13,17 +13,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  <base href="<%=basePath%>">
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
         <meta charset="utf-8">
-        <title>fasebooke</title>
+      <title>fasebooke</title>
+         
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+          <link href="<%=request.getContextPath()%>/resources/css/jscrollpane1.css" rel="stylesheet" type="text/css"/>
         <link href="<%=request.getContextPath()%>/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <!--[if lt IE 9]>
-          <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
    <link href="<%=request.getContextPath()%>/resources/css/facebook.css" rel="stylesheet" type="text/css"/>
+     <link href="<%=request.getContextPath()%>/resources/css/share.min.css" rel="stylesheet" type="text/css"/>
+     
+        
          <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/img/facebook_128px_1160395_easyicon.net.ico"/>
       <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.js"></script> 
-         
+    <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/social-share.min.js" id="wei"></script> 
       <script language="javascript" type="text/javascript" src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js
 "></script>
  <script language="javascript" type="text/javascript">
@@ -63,22 +65,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="column col-sm-2 col-xs-1 sidebar-offcanvas" id="sidebar">
 					  
 						<ul class="nav">
-							<li><a href="#" data-toggle="offcanvas" class="visible-xs text-center"><i class="glyphicon glyphicon-chevron-right"></i></a></li>
+							<li><a href="javascript:;" data-toggle="offcanvas" class="visible-xs text-center"><i class="glyphicon glyphicon-chevron-right"></i></a></li>
 						</ul>
 					   
 						<ul class="nav hidden-xs" id="lg-menu">
-							<li class="active"><a href="#featured"><i class="fa fa-facebook-square"></i> 欢迎来到fasebooke</a></li>
-							<li><a href="#stories"><i class="fa fa-pencil-square-o"></i>消息</a></li>
-							<li><a href="#"><i class="glyphicon glyphicon-list"></i> 好友名单</a></li>
-							<li><a href="#"><i class="glyphicon glyphicon-picture"></i> 照片</a></li>
+							<li class="active"><a href="javascript:;"><i class="fa fa-facebook-square"></i> 欢迎来到fasebooke</a></li>
+							<li><a href="javascript:;" onclick="openChatService()"><i class="glyphicon glyphicon-list"></i> fasebooke聊天窗</a></li>
+							<li><a href="http://localhost:8080/fasebooke/picture/${current_user.fuid}/onthisday.action"><i class="glyphicon glyphicon-picture"></i> 照片墙</a></li>
 							<li>
-							    <a href=""><i class="fa fa-bookmark"></i>收藏夹</a>
-							</li>
-							<li>
-							    <a href=""><i class="fa  fa-calendar" ></i>活动</a>
-							</li>
-							<li>
-							    <a href=""><i class="fa  fa-history" ></i>那年今天</a>
+							    <a href="http://localhost:8080/fasebooke/comment/${current_user.fuid}/seenote.action"><i class="fa  fa-history" ></i>留言墙</a>
 							</li>
 						</ul>
 						<ul class="list-unstyled hidden-xs" id="sidebar-footer">
@@ -139,12 +134,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<a href="http://localhost:8080/fasebooke/user/show.action?fuid=${current_user.fuid }">
 								<i class="glyphicon glyphicon-home"></i> 首页</a>
 							  </li>
-							  <li>
-								<a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> 好友请求</a>
-							  </li>
+
 							  <li>
 							    
-								<a href="javascript:;" title="消息" onclick="opennotice(this)"><span class="fa fa-comments"></span></a>
+								<a href="javascript:;" title="消息" onclick="opennoticeSou(this)"><span class="fa fa-comments"></span></a>
 								<ul class="dropdown-menu" role="menu" ></ul>
 							  </li>
 							  <li>
@@ -365,17 +358,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										   <h5>${emp.fname}</h5> 
 										     <span>	<fmt:formatDate pattern="yyyy-MM-dd" value="${emp.sendtime}" /></span>
 										   
-										 </div> </div>
-										  <div class="panel-body" id="panel${emp.did}">
+										 </div>
+										
+										 
+										  </div>
+										  <div class="panel-body" id="panel${emp.did}" name="title">
 		                                 
 		                                     <script>  
 		                             var sendwords="${emp.sendwords}";
 		                             var sendimage="${emp.sendimage}";
 		                             var dataid="panel${emp.did}";
-		                           
+		                             
 		                           jiexi(sendwords,dataid,sendimage);
+		            
+		                        
+
 		                                     </script>
+	
 											<div class="clearfix"></div>
+											
+											
+		                        <div class="social-share" data-initialized="true" data-description="${emp.sendwords}" data-image ="${emp.imagehead}" data-title="${emp.sendwords} " data-source="${emp.sendwords}">
+    <a href="#" class="social-share-icon icon-weibo"></a>
+    <a href="#" class="social-share-icon icon-qq"></a>
+    <a href="#" class="social-share-icon icon-tencent"></a>
+  
+    
+</div> 
 										<hr>
 											<div style="display:inline-flex">
 											
@@ -481,7 +490,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										 <div class="panel-heading"><span class="fa fa-user" style="font-size:30px"></span>
 										 <div style="display:inline-block">
 										 <h4 style="margin:0">可能认识的人</h4>
-										 <a href="" class="btn-link">查看所有好友推荐</a>
 										 </div></div>
 										  <div class="panel-body">
 										  <div id="myCarousel" class="carousel slide">
@@ -498,7 +506,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</c:choose>
 		
 		   <div class="_addfr ix">
-			<img src="<%=request.getContextPath()%>/resources/img/uFp_tsTJboUY7kue5XAsGAs28.png">
+		    <c:choose>
+                        <c:when test="${!empty current_user.fheadimage}">
+                             <img src="http://localhost:8080/img/${current_user.fuid}/${current_user.fheadimage}" style="border: 1px solid rgba(0, 0, 0, .1);width:64px;height:64px">
+                            </c:when>
+                            <c:otherwise>
+                             <img src="http://localhost:8080/img/face/head_male_man_user_64px_1578_easyicon.net.png" style="border: 1px solid rgba(0, 0, 0, .1);width:64px;height:64px">
+                            </c:otherwise>
+                            </c:choose>
+		
 			<p><c:out value="${addf.fname}"></c:out></p>
 			<p><c:out value="${addf.fliveplace}"></c:out></p>
 		
@@ -523,77 +539,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									  
 									
 								
-
-									   <div class="panel panel-default">
-										 <div class="panel-heading">
-										 
-										 <span style="color: #90949c;
-    font-size: 22px;
-    line-height: 12px;">推荐主页</span>
-                                            <a href="" style="float:right">查看全部</a>
-                                             </div>
-										  <div class="panel-body">
-										   <div id="myface" class="carousel slide">
-											<!-- 轮播（Carousel）项目 -->
-	<div class="carousel-inner">
-		<div class="item active">
-		<div class="_walkcontainer">
-		<div class="_imgcon">
-			<img src="http://localhost:8080/img/主题/季节性/3.jpg" alt="First slide" >
-            </div>
-			
-			    <a href="" class="_walk">yyy</a>
-			
-			<div class="_describe">
-			    伊苏的电梯
-			</div>
-			
-			</div>
-		</div>
-		<div class="item">
-			<div class="_walkcontainer">
-		<div class="_imgcon">
-			<img src="http://localhost:8080/img/主题/季节性/2.jpg" alt="First slide">
-                </div>
-			
-			    <a href="" class="_walk">yyy</a>
-			
-			<div class="_describe">
-			    伊苏的电梯
-			</div>
-			
-			</div>
-		</div>
-		<div class="item">
-			<div class="_walkcontainer">
-		     <div class="_imgcon">
-			<img src="http://localhost:8080/img/主题/季节性/1.jpg" alt="First slide">
-			</div>
-			
-			    <a href="" class="_walk">yyy</a>
-			
-			<div class="_describe">
-			    伊苏的电梯
-			</div>
-			
-			</div>
-		</div>
-		
-               
-
-	</div>
-	 <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-thumbs-up" style="padding-left:10px;padding-right:10px"></i><span style="padding-left:10px;padding-right:10px">赞主页</span></button>
-	<!-- 轮播（Carousel）导航 -->
-	<a class="carousel-control left" href="#myface" 
-	   data-slide="prev">&lsaquo;</a>
-	<a class="carousel-control right" href="#myface" 
-	   data-slide="next">&rsaquo;</a>
-                                              </div>
-										 
-									   </div>
-									
-									  
-                                    </div>
                                      </div>
 							   </div><!--/row-->
 								
@@ -607,39 +552,113 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 
-
+  <div class="talk" id="talk" style="display:none">
+	<div class="talk_title"><span>fasebooke聊天窗</span></div>
+	<div class="talk_record">
+		<div style="overflow:auto;height:198px" class="jp-container" id="jp">
+			
+		
+			</div>
+			</div>
+			<div class="talk_word">
+		&nbsp;
+		<input class="add_face" id="facial" type="button" title="选择好友" value="" />
+		  <select style="position:absolute;left:-95px;background:#212121;color:white" size=3  id="tf">
+	 <c:forEach items="${myf}" var="ep">
+	 <c:if test="${!empty ep.flist }">
+	 <c:forEach items="${ep.flist}" var="em">
+	 <option>${em.fcount}</option>
+	 </c:forEach>
+	 </c:if>
+	 </c:forEach>
+	       </select>
+		<input id="shuru" class="messages emotion" autocomplete="off" value="在这里输入文字" onFocus="if(this.value=='在这里输入文字'){this.value='';}"  onblur="if(this.value==''){this.value='在这里输入文字';}"  />
+		<input class="talk_send" type="button" title="发送" value="发送" id="sendButton"/>
+	
+	
+		
+	</div>
+			</div>
 		<!--post modal-->
-		<div id="postModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-		  <div class="modal-dialog">
-		  <div class="modal-content">
-			  <div class="modal-header">
-				  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
-					Update Status
-			  </div>
-			  <div class="modal-body">
-				  <form class="form center-block">
-					<div class="form-group">
-					  <textarea class="form-control input-lg" autofocus="" placeholder="What do you want to share?"></textarea>
-					</div>
-				  </form>
-			  </div>
-			  <div class="modal-footer">
-				  <div>
-				  <button class="btn btn-primary btn-sm" data-dismiss="modal" aria-hidden="true">Post</button>
-					<ul class="pull-left list-inline"><li><a href=""><i class="glyphicon glyphicon-upload"></i></a></li><li><a href=""><i class="glyphicon glyphicon-camera"></i></a></li><li><a href=""><i class="glyphicon glyphicon-map-marker"></i></a></li></ul>
-				  </div>	
-			  </div>
-		  </div>
-		  </div>
-		</div>
-        
-
         <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/bootstrap.js"></script>
         <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/localsearch.js"></script>
         <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/scroll.js"></script>
+       
     <script type="text/javascript">
+    var socket =null;
+    var tryTime = 0;
+    $(function(){
+    	initSocket();
+    	window.onbeforeunload = function () {
+    		//离开页面时的其他操作
+    		};
+    });
+
+
+        //创建socket对象
+       function initSocket() {
+        	
+        socket = new WebSocket("ws://"+ window.location.host+"${pageContext.request.contextPath}/game?fuid=${current_user.fcount}");
+        socket.onopen = function() {
+            console.log("连接成功");
+
+         };
+        socket.onmessage = function(message) {
+        	var data=JSON.parse(message["data"]);
+        	var t=data["sendtime"];
+        	var time=(t["year"]+1900)+"-"+(t["month"]+1)+"-"+t["date"]+" "+t["hours"]+":"+t["minutes"]+":"+t["seconds"];
+        	
+        	$('#jp').append('<div class="talk_recordboxme"><div class="user"><img src=""/>'+data["fuid"]+'</div><div class="talk_recordtext"><h3>'+data["msg"]+'</h3><span class="talk_time">'+time+'</span></div></div>')
+            console.log(data);
+            
+         };
+         socket.onerror = function() {
+
+             console.log("error");
+
+         };
+      // 断线重连
+         socket.onclose = function () {
+         // 重试10次，每次之间间隔10秒
+         if (tryTime < 10) {
+         setTimeout(function () {
+         webSocket = null;
+        tryTime++;
+        initSocket();
+         }, 500);
+         } else {
+         tryTime = 0;
+        }
+        };
+        }
+        //连接创建后调用
+
+        //关闭连接的时候调用
+
+       /*  socket.onclose = function(){
+
+            alert("close");
+
+        }; */
+
+        //出错时调用
+        $("#sendButton").click(function() {
+        	var tf=document.getElementById("tf").value;
+        
+        	var date=new Date();
+        	var s=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+          var test=$('#shuru').val();
+          $('#shuru').val("");
+          $('#jp').append('<div class="talk_recordboxme"><div class="user"><img src=""/>我 </div><div class="talk_recordtext"><h3>'+test+'</h3><span class="talk_time">'+s+'</span></div></div>')
+            var msg={"fuid":'${current_user.fcount}',"tfuid":tf,"msg":test,"sendtime":s};
+            socket.send(JSON.stringify(msg));
+
+        });
+
+
   
         $(document).ready(function() {
+     
 			$('[data-toggle=offcanvas]').click(function() {
 				$(this).toggleClass('visible-xs text-center');
 				$(this).find('i').toggleClass('glyphicon-chevron-right glyphicon-chevron-left');

@@ -79,6 +79,7 @@ public class FhelpcenterControl {
 		 String s=request.getParameter("query");
 	     if(!"".equals(s)){
 		List<String> sns=ihelp.checklike(s);
+		if(sns.size()>0){
 		  jsonObject.put("hah",sns.get(0));
 		  try {
 	    	   response.setContentType("application/json");
@@ -91,12 +92,21 @@ public class FhelpcenterControl {
 			e.printStackTrace();
 		} 
 	     }
+	     }else
+	     {
+	    	 try {
+				response.getWriter().print("404");
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+	     }
 	}
 	@RequestMapping(value="/college.action")
   public void college(HttpServletRequest request,HttpServletResponse response){
 		 JSONObject jsonObject = new JSONObject();  
 	     String s=request.getParameter("college");
-	     System.out.println(s+"ddddddddddddd");
+	   
 	     if(!"".equals(s)&&s!=null){
 	       List<College>  hh=ihelp.checksmartSearchcolle(s);
 	       System.out.println(hh.size());

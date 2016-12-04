@@ -31,6 +31,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/img/facebook_128px_1160395_easyicon.net.ico"/>
    <style>
+    .zuobian{
+    margin-top: -11px;
+    margin-left: 40px;
+    color: darkgray;
+    }
        body{font-size:14px;font-family:"微软雅黑";background:url("http://localhost:8080/img/face/2.jpg")top no-repeat;background-attachment:fixed;z-index:0;background-size:100%;}
        a{      color: black;
          }
@@ -90,10 +95,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                              
        <c:choose>
                              <c:when test="${!empty current_user.fheadimage}">
-                             <img src="http://localhost:8080/img/${current_user.fuid}/${current_user.fheadimage}" style="border: 1px solid rgba(0, 0, 0, .1);width:24px;height:24px"><span>${current_user.fname}</span>
+                             <img src="http://localhost:8080/img/${current_user.fuid}/${current_user.fheadimage}" style="border: 1px solid rgba(0, 0, 0, .1);width:24px;height:24px">
                             </c:when>
                             <c:otherwise>
-                             <img src="http://localhost:8080/img/face/head_male_man_user_64px_1578_easyicon.net.png" style="border: 1px solid rgba(0, 0, 0, .1);width:24px;height:24px"><span>${current_user.fname}</span>
+                             <img src="http://localhost:8080/img/face/head_male_man_user_64px_1578_easyicon.net.png" style="border: 1px solid rgba(0, 0, 0, .1);width:24px;height:24px">
                             </c:otherwise>
                             </c:choose>
                              <span>${current_user.fname}</span>
@@ -103,18 +108,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<a href="http://localhost:8080/fasebooke/user/show.action?fuid=${current_user.fuid }">
 								<i class="glyphicon glyphicon-home"></i> 首页</a>
 							  </li>
-							  <li>
-								<a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> 好友请求</a>
-							  </li>
+				
 							  <li>
 							    
-								<a href="javascript:;" title="消息" onclick="opennotice()" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-comments"></span></a>
-								<ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul>
+								<a href="javascript:;" title="消息" onclick="opennotice(this)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fa fa-comments"></span></a>
+								<ul class="dropdown-menu" role="menu"> </ul>
 							  </li>
 							  <li>
 							  <li>
-							<a  href="javascript:;" title="通知" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <span class="glyphicon glyphicon-globe"></span></a>
-                          <ul class="dropdown-menu" role="menu"> <li><a href="#">签到</a></li><li><a href="#">赞</a></li><li><a href="#">活动</a></li><li class="divider"></li><li><a href="#">更多。。</a></li></ul> 
+							<a  href="javascript:;" onclick="openbroadcast(this)" title="通知" > <span class="glyphicon glyphicon-globe"></span></a>
+                          <ul class="dropdown-menu" role="menu"> </ul> 
 							  </li>
 				
 							  </li>
@@ -288,8 +291,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   <div class="col-md-12">
   <ul class="lead nav nav-pills">
-  <li class="active">
-  <a href="http://localhost:8080/fasebooke/user/${current_user.fuid}.action">时间线</a></li><li><a href="http://localhost:8080/fasebooke/jian/${current_user.fuid}/firstin.action">简介</a></li><li><a href="http://localhost:8080/fasebooke/friend/${current_user.fuid}/myfreind.action">好友</a></li><li><a href="http://localhost:8080/fasebooke/picture/${current_user.fuid}/fuck.action">照片</a></li> 
+  <li >
+  <a href="http://localhost:8080/fasebooke/user/${current_user.fuid}.action">时间线</a></li><li class="active"><a href="http://localhost:8080/fasebooke/jian/${current_user.fuid}/firstin.action">简介</a></li><li><a href="http://localhost:8080/fasebooke/friend/${current_user.fuid}/myfreind.action">好友</a></li><li><a href="http://localhost:8080/fasebooke/picture/${current_user.fuid}/fuck.action">照片</a></li> 
    <li><a href="http://localhost:8080/fasebooke/user/${current_user.fuid}/checkin.action">签到</a></li>
    </ul>
   
@@ -343,7 +346,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  </c:when>
                  <c:otherwise>
                   <li class="media">
-                        <a class="pull-left" href="">
+                        <a class="pull-left" href="http://localhost:8080/fasebooke/jian/${current_user.fuid}/education.action">
                         <div style="height:64px;width:64px;border:1px dashed #4080ff;">
                             <i class="glyphicon glyphicon-plus" style="line-height:60px;margin-left:22px"></i>
                         </div>
@@ -380,7 +383,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  </c:when>
                  <c:otherwise>
                   <li class="media">
-                        <a class="pull-left" href="">
+                        <a class="pull-left" href="http://localhost:8080/fasebooke/jian/${current_user.fuid}/education.action">
                         <div style="height:64px;width:64px;border:1px dashed #4080ff;">
                             <i class="glyphicon glyphicon-plus" style="line-height:60px;margin-left:22px"></i>
                         </div>
@@ -406,7 +409,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                          </c:when>
                          <c:otherwise>
                          <li class="media">
-                        <a class="pull-left" href="">
+                        <a class="pull-left" href="http://localhost:8080/fasebooke/jian/${current_user.fuid}/liveing.action">
                         <div style="height:64px;width:64px;border:1px dashed #4080ff;">
                             <i class="glyphicon glyphicon-plus" style="line-height:60px;margin-left:22px"></i>
                         </div>
@@ -433,7 +436,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                          </c:when>
                          <c:otherwise>
                           <li class="media">
-                        <a class="pull-left" href="">
+                        <a class="pull-left" href="http://localhost:8080/fasebooke/jian/${current_user.fuid}/liveing.action">
                         <div style="height:64px;width:64px;border:1px dashed #4080ff;">
                             <i class="glyphicon glyphicon-plus" style="line-height:60px;margin-left:22px"></i>
                         </div>
@@ -501,28 +504,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </div>
  </div>
 </div>
-
-<!--post modal-->
-	<!-- 	<div id="postModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" >
-		  <div class="modal-dialog">
-		
-		  <div class="modal-content">
-			  <div class="modal-body">
-	       <div id="box" >
-       	   <div id="test">
-             
-         </div>
-     </div>
-			  <div class="modal-footer">
-				  <div>
-				  <button class="btn btn-primary btn-sm" data-dismiss="modal" aria-hidden="true" onclick="dimiss()">完成</button>
-					
-				  </div>	
-			  </div>
-		  </div>
-		  </div>
-		</div>
-      </div> -->
  <div id="postModal2" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 		  <div class="modal-dialog">
 		  <div class="modal-content">

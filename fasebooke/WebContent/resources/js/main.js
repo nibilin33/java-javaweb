@@ -1,6 +1,34 @@
 var fid=localStorage.getItem("current_id");
 var headimage= localStorage.getItem("current_head");
-
+function openChatService(){
+	var st=$('#talk').css("display");
+	if(st=="none"){
+		$('#talk').css("display","block")
+	}else {
+		$('#talk').css("display","none");
+	}
+}
+function leaveM(e){
+  var neir=$('#leavenote').val().trim();
+   $('#leavenote').val("");
+  console.log(neir);
+  var vid=$(e).attr('data');
+  console.log(vid);
+  var date=new Date();
+  console.log(fid);
+  var leae={"fuid":vid,"lfuid":fid,"leavenote":neir,"leavedate":date};
+  $.ajax({
+      url:"/fasebooke/comment/addnote.action",
+      type:"POST",
+      contentType:"application/json",
+      data:JSON.stringify(leae),
+      dataType:"text",
+      success:function(message){
+             console.log(message);
+      }
+      
+  });
+}
 $(document).ready(function(){
 	
 /*	$('.friend').each(function () {
@@ -519,13 +547,49 @@ function imgChoose(e){
         }
     });
  }
-function opennotice(e){ /*  打开通知*/
+function opennoticeSou(e){ /*  打开通知*/
+
 	if($(e).parent().attr("class")=="open"){
 		$(e).parent().removeClass("open");
 		return;
 	}
 	
-	$(e).parent().addClass("open");
+     $(e).parent().addClass("open");
+	/*x.style="display:block";*/
+/*	$($(e).parent()).addClass("open");*/
+	  var fid=localStorage.getItem("current_id");
+	  console.log(fid);
+	  $.ajax({
+	        url:"/fasebooke/aska/opennotice.action",
+	        type:"POST",
+	        data:"fuid="+fid,
+	        dataType:"json",
+	        success:function(message){
+	        	var no=message["newnotice"];
+	        	console.log(no);
+	        	ul = $(e).next();
+	        	ul.empty();
+	        	for(var i = 0; i < no.length; i++)
+	        		ul.append('<li ffid="'+no[i].ffid+'" fuid="'+no[i].fuid+'" asid="'+no[i].asid+'" style="color:gray;text-align:center;width:200px;cursor:default"><p>'+no[i].fuser.fname+'请求好友</p><button class="btn btn-default" onclick="Agree(this)"><i class="glyphicon glyphicon-ok-circle" style="color:white"></i>同意</button><button class="btn btn-default" onclick="Reject(this)"><i class="glyphicon glyphicon-remove-circle" style="color:white"></i>拒绝</button></li>');
+	              
+	        }
+	        
+	    });
+}
+function opennotice(e){ /*  打开通知*/
+	var x=$(e).next();
+/*	if(x.style.cssText=="display: block;")
+		x.style="display:none";*/
+	if($(x).attr("class")=="open"){
+		console.log("ddddddd");
+		$(x).removeClass("open");
+		return;
+	}
+	
+     console.log(x);
+     $(x).addClass("open");
+	/*x.style="display:block";*/
+/*	$($(e).parent()).addClass("open");*/
 	  var fid=localStorage.getItem("current_id");
 	  console.log(fid);
 	  $.ajax({
@@ -599,9 +663,9 @@ function jiexi(sendwords,dataid,sendimage){
 			temp = temp.join('<img src="http://localhost:8080/img/face/3017/'+i+'.png" width="22" height="22"/>');
 		
 		}
-
+		  
 		$(ta).append(temp);
-		
+  var imagea;
 	if(sendimage!=''){
 		/* if(sendimage.indexOf("http://localhost:8080/img/city/")==0){
 			 sendimage = "http://localhost:8080/" + sendimage.split("http://localhost:8080/")[2];
@@ -610,11 +674,13 @@ function jiexi(sendwords,dataid,sendimage){
 			 }else{*/
 				var imagearray=sendimage.split('|');
 				console.log(sendimage);
-				for(var i=1;i<imagearray.length;i++)
+				for(var i=1;i<imagearray.length;i++){
+					imagea=imagearray[1];
 					$(ta).append('<img src="'+imagearray[i]+'">');
+				}
 		}
 	
-		
+	
 
 }
 function commentshow(e){

@@ -1,11 +1,75 @@
+
 $("document").ready(function(){
+	$("input[name='telemail']").blur(function(){
+		 var s=$(this).val().trim();
+		    
+	     if(s==''||s==null||s==undefined){
+	    	 console.log(s+"ddddddd");
+	    	 $("#telemail").html("");
+	    	 $("#telemail").html("不能为空");
+	    	 $("input[name='telemail']").focus();
+	     }
+	});
+		$("input[name='firstname']").blur(function(){
+			 var s=$(this).val().trim();
+			    
+		     if(s==''||s==null||s==undefined){
+		    	 console.log(s+"ddddddd");
+		    	 $("#iname").html("");
+		    	 $("#iname").html("姓名不能为空");
+		    	 $("input[name='firstname']").focus();
+		     }else {
+		    	 $("#iname").html("");
+			}
+		});
+	$("input[name='lastname']").blur(function(){
+		 var s=$(this).val().trim();
+		    
+	     if(s==''||s==null||s==undefined){
+	    	 console.log(s+"ddddddd");
+	    	 $("#iname").html("");
+	    	 $("#iname").html("姓名不能为空");
+	    	 $("input[name='lastname']").focus();
+	     }else{
+	    	 $("#iname").html("");
+	     }
+	});
+	$("input[name='ogame']").blur(function(){
+		 var s=$(this).val().trim();
+		    
+	     if(s==''||s==null||s==undefined){
+	    	 console.log(s+"ddddddd");
+	    	 $("#ogame").html("");
+	    	 $("#ogame").html("密码不能为空");
+	    	 $("input[name='ogame']").focus();
+	     }
+	});
  $("input[name='telemail']").change(function(){   
      var pattern=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
      var pattern2=/^(13|15|18)\d{9}$/;
-     var s=$(this).val();
+     var s=$(this).val().trim();
+    var l=$("input[name='lastname']").val().trim();
+    var t=$("input[name='firstname']").val().trim();
+    if(t==''||t==null||t==undefined){
+    	 $("#iname").html("");
+    	 $("#iname").html("姓名不能为空");
+    	 $("input[name='firstname']").focus();
+    }
+    if(l==''||l==null||l==undefined){
+    	 $("#iname").html("");
+    	 $("#iname").html("姓名不能为空");
+    	 $("input[name='lastname']").focus();
+    }
+     if(s==''||s==null||s==undefined){
+    	 console.log(s+"ddddddd");
+    	 $("#telemail").html("");
+    	 $("#telemail").html("不能为空");
+    	 $("input[name='telemail']").focus();
+     }
      if(s.indexOf("@")>0){
        if(!pattern.test(s)){
     $("#telemail").html("请输入正确邮箱格式");
+   
     $("input[name='telemail']").focus();
           }else{
                $("#telemail").html("");
@@ -23,7 +87,11 @@ $("document").ready(function(){
 });
    $("input[name='ogame']").change(function(){
         var pp=/^[0-9a-zA-Z_]{6,15}$/
-       var s=$(this).val();
+       var s=$(this).val().trim();
+        if(s == ''){
+        	 $("#ogame").html("密码不能为空");
+        	 $("input[name='ogame']").focus();
+        }
           if(pp.test(s)){
                $("#ogame").html("");
           }else{
@@ -47,7 +115,12 @@ var ss=$("input[name='ogame']").val().trim();
     
     $("#btn2").click(function(){
     	 var kk=$("input[name='telemail']").val();
-    	 console.log(JSON.stringify(GetJsonData(kk)));
+    	 var l=$("input[name='lastname']").val().trim();
+    	    var t=$("input[name='firstname']").val().trim();
+    	if(kk==''||kk==undefined||kk==null||t==''||t==null||t==undefined||l==''||l==null||l==undefined){
+    		alert("请完整填写信息");
+    		return;
+    	}
        $.ajax({
            type:"POST",
            url:"/fasebooke/user/register.action",
@@ -62,7 +135,9 @@ var ss=$("input[name='ogame']").val().trim();
         	    	$("input[type=text]").val("");
         	    	$("input[type=password]").val("");
         	    }else{
-        	    	alert("注册失败！");
+        	    	alert("改手机或邮箱已被注册！");
+        	    	$("input[type=text]").val("");
+        	    	$("input[type=password]").val("");
         	    }
         	    	
         	   console.log(dataObj.susucess);

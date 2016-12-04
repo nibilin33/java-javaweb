@@ -49,12 +49,14 @@ import com.fase.iservice.IZan;
 import com.fase.iservice.Icommentservice;
 import com.fase.iservice.Idynamicinfo;
 import com.fase.iservice.Ifuser;
+import com.fase.iservice.Iufriend;
 import com.fase.po.Blocking;
 import com.fase.po.College;
 import com.fase.po.DynamicInfo;
 import com.fase.po.Fuser;
 import com.fase.po.Settime;
 import com.fase.po.TComment;
+import com.fase.po.Ufreind;
 import com.fase.po.Zan;
 
 @Controller
@@ -62,6 +64,8 @@ import com.fase.po.Zan;
 public class FuserControl{
 	@Resource
 	private Ifuser ifuser;
+	@Resource
+	private Iufriend iuservice;
 	@Resource
 	private Idynamicinfo  idy;
 	@Resource
@@ -267,7 +271,7 @@ public class FuserControl{
 	
 			Fuser users=use.get(0);
 			users.setFstate(new BigDecimal(1));
-			System.out.println(users.getFhometown());
+	
 			ifuser.updateFuser(users); 
 			//对于in参数赋值 
 			param.put("fuid",users.getFuid()); 
@@ -280,15 +284,17 @@ public class FuserControl{
 			friends.put("liveplace", users.getFliveplace());
 			   friends.put("results", OracleTypes.CURSOR);
 			  List<Fuser> friend=ifuser.findfreinds(friends);/*找出可能认识的人*/
+			  List<Ufreind> uf=iuservice.selectall(users.getFuid());
 			 Settime setime=iblock.selectsetting(users.getFuid());
 	           s.setAttribute("current_user", users);
 			  s.setAttribute("dinfo", dinfo);
 	          s.setAttribute("addfreinds", friend);
+	          s.setAttribute("myf", uf);
 	          s.setAttribute("settime",setime);
 	          
 			  model.setViewName("facebook");
 		}else
-		{    	
+		{    s.setAttribute("wrong","用户名或者密码错误！");	
 			model.setViewName("index");
 		}
 	    return model;
@@ -395,6 +401,30 @@ public class FuserControl{
 	public ModelAndView mypage(@PathVariable("fuid")String fuid,@PathVariable("ffid")String ffid,HttpServletRequest re){
 		
 		ModelAndView mv=new ModelAndView();
+		List<Blocking>en = iblock.selectall(fuid);
+		
+		for(int i=0;i<en.size();i++){
+		if(ffid.equals(en.get(i).getBfuid())){
+			mv.setViewName("404");
+			return mv;
+		}
+		
+		}
+		Settime setime=iblock.selectsetting(fuid);
+		if("仅限自己".equals(setime.getFtimeline())){
+			mv.setViewName("404");
+			return mv;
+		}else
+			if("好友".equals(setime.getFtimeline())){
+				Map<String ,Object>params =new HashMap<String, Object>();
+				params.put("askfuid", fuid);
+				params.put("fuid", ffid);
+				if(!iuservice.isinfriendfriend(params)){
+					mv.setViewName("404");
+					return mv;
+				}
+				
+			}
 		Map<String, Object> param = new HashMap<String, Object>(); 
 		
 		//对于in参数赋值 
@@ -405,9 +435,10 @@ public class FuserControl{
 	     List<DynamicInfo> dinfo=fenzhuang(param,"selectdybyid");
 		HttpSession s=re.getSession();
 		Fuser us=ifuser.selectbyid(ffid);
-		s.setAttribute("current_user",us);
+		
 		Fuser vi=ifuser.selectbyid(fuid);
 		s.setAttribute("visit", vi);
+		s.setAttribute("current_user",us);
 		mv.addObject("timeline",dinfo);
 		mv.setViewName("qqtimelinetosee");
 		return mv;
@@ -476,7 +507,7 @@ public class FuserControl{
 	public void findpass(HttpServletResponse response,HttpServletRequest re){
 		String ask=re.getParameter("findit");
 		Fuser answer=ifuser.findlostpass(ask);
-	
+	System.out.println(answer.getFemail());
 		 try {
 			 if(answer==null){
 			  response.getWriter().print("wrong");

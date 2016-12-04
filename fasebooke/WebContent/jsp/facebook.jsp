@@ -17,6 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
    <link href="<%=request.getContextPath()%>/resources/css/facebook.css" rel="stylesheet" type="text/css"/>
+      <link href="<%=request.getContextPath()%>/resources/css/jscrollpane1.css" rel="stylesheet" type="text/css"/>
          <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" type="text/css"/>
         <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/img/facebook_128px_1160395_easyicon.net.ico"/>
     
@@ -270,7 +271,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 		</div>
-
+    <div class="talk">
+	<div class="talk_title"><span>fasebooke聊天窗</span></div>
+	<div class="talk_record">
+		<div style="overflow:auto;height:198px" class="jp-container" id="jp">
+			<div class="talk_recordboxme">
+				<div class="user"><img src=""/>王玉山</div>
+				<div class="talk_recordtext">
+					<h3>我的问题是：1+1=？</h3>
+					<span class="talk_time">2014-09-15 15:06</span>
+				</div>
+			</div>
+		
+			</div>
+			</div>
+			<div class="talk_word">
+		&nbsp;
+		<input class="add_face" id="facial" type="button" title="添加表情" value="" />
+		<input class="messages emotion" autocomplete="off" value="在这里输入文字" onFocus="if(this.value=='在这里输入文字'){this.value='';}"  onblur="if(this.value==''){this.value='在这里输入文字';}"  />
+		<input class="talk_send" type="button" title="发送" value="发送" />
+	</div>
+			</div>
+			
 
 		<!--post modal-->
 	

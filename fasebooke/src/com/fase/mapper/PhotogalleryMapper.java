@@ -11,13 +11,10 @@ public interface PhotogalleryMapper {
     int insertT(Photogallery record);
 
     int insertSelective(Photogallery record);
-
     Photogallery selectByPrimaryKey(String gpid);
-
     int updateByPrimaryKeySelective(Photogallery record);
-
     int updateByPrimaryKey(Photogallery record);
     void insertP(Map<String ,Object> parma);
     List<Photogallery> selectall(String fuid);
-  Photogallery selectbygname(String gname);
+    Photogallery selectbygname(String gname);
 }

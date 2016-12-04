@@ -26,8 +26,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  }
  
  </script>
+
 </head>
 <body>
+
 <div class="fb-container">
   <div class="fb_headcontainer">
    <div class="fb_loghead">
@@ -50,9 +52,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <tr>
                   <td><label for="email" style="color:white" >邮箱/手机</label></td>
                   <td><label for="password" style="color:white" >密码</label></td>
+                  <td>
+      
+                  </td>
               </tr>
               <tr>
                   <td>
+                  
                     <input type="text" id="email" name="username">  
                   </td>
                   <td>
@@ -78,6 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </div>
    </div>  
    </div>
+  
    <div class="fb_left">
        <h1 style="color:black;font-size:22px;margin-left:20px;margin-top:20px">联系你我，分享生活，尽在 Fasebooke</h1>
        <img src="<%=request.getContextPath()%>/resources/img/facebooklogin.png">
@@ -95,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <div class="form-group">
         <input type="text" class="form-control" placeholder="姓" name="lastname">
        </div>
-       </div>
+       </div><p id="iname" style="color:red"></p>
        <br>
        <div class="form-group">
             <input type="text" class="form-control" placeholder="手机或邮箱"
